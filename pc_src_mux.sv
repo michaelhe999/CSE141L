@@ -8,8 +8,8 @@ module pc_src_mux(
 
 always_comb begin
     if (branch & zero) begin
-        signed [7:0] branch_distance;
-        branch_distance = $signed(instruction[6:0]);
+        signed [8:0] branch_distance;
+        branch_distance = (instruction[6:0] << 2);
         pc_out = next_pc + branch_distance; // branch offset
     end else begin
         pc_out = next_pc;

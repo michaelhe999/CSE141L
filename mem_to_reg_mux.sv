@@ -12,6 +12,5 @@ module mem_to_reg_mux(
             write_value = alu_out; // use ALU value
         end
     end
-);
 
 endmodule

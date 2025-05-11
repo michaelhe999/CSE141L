@@ -1,6 +1,6 @@
 module alu_control (
-    input logic alu_op; // operation code from control unit
-    input logic [8:0] instruction; // instruction
+    input logic alu_op, // operation code from control unit
+    input logic [8:0] instruction, // instruction
     input logic branch, // branch signal
     output logic [2:0] alu_opcode // ALU control signal
 );

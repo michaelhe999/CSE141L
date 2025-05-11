@@ -1,6 +1,6 @@
 module top_level (
     input  logic clk,
-    input  logic reset
+    input  logic reset,
     input  logic start, 
     output logic done
 );
@@ -22,6 +22,8 @@ always_ff @(posedge clk or posedge reset) begin
         while (!done) begin
             // read instruction at pc
             instruction_memory im(
+                .clk(clk),
+                .reset(reset),
                 .pc(pc),
                 .instruction(instruction)
             );
@@ -46,11 +48,14 @@ always_ff @(posedge clk or posedge reset) begin
                 .alu_opcode(alu_opcode)
             );
             register_file rf(
+                .clk(clk),
                 .reset(reset),
                 .finished_step(0),
                 .instruction(instruction),
                 .write_reg(write_reg),
+                .mem_read(mem_read),
                 .use_immediate(use_immediate),
+                .branch(branch),
                 .write_value(0),
                 .r_a(r_a),
                 .r_b(r_b)
@@ -72,6 +77,8 @@ always_ff @(posedge clk or posedge reset) begin
             );
              // memory access :(
             data_memory dm(
+                .clk(clk),
+                .reset(reset),
                 .mem_read(mem_read),
                 .mem_write(mem_write),
                 .r_a(r_a),
@@ -84,19 +91,23 @@ always_ff @(posedge clk or posedge reset) begin
                 .mem_out(data_out),
                 .write_value(write_value)
             );
-            // write back result
-            register_file rf(
-                .reset(reset),
-                .finished_step(1),
+            register_file rf (
+                .clk(clk),
+                .reset(reset),  
+                .finished_step(1),  
                 .instruction(instruction),
-                .write_reg(write_reg),
+                .write_reg(write_reg), 
+                .mem_read(mem_read),     
                 .use_immediate(use_immediate),
-                .write_value(write_value), // fill this in with the result of ALU or memory
-                .r_a(r_a),
+                .branch(branch),
+                .write_value(write_value),
+                .r_a(r_a),  
                 .r_b(r_b)
             );
             // increment pc
             program_counter pc(
+                .clk(clk),
+                .reset(reset),
                 .current_pc(pc),
                 .instruction(instruction),
                 .branch(branch),
@@ -114,6 +125,8 @@ always_ff @(posedge clk or posedge reset) begin
         while (!done) begin
             // read instruction at pc
             instruction_memory im(
+                .clk(clk),
+                .reset(reset),
                 .pc(pc),
                 .instruction(instruction)
             );
@@ -138,11 +151,14 @@ always_ff @(posedge clk or posedge reset) begin
                 .alu_opcode(alu_opcode)
             );
             register_file rf(
+                .clk(clk),
                 .reset(reset),
                 .finished_step(0),
                 .instruction(instruction),
                 .write_reg(write_reg),
+                .mem_read(mem_read),
                 .use_immediate(use_immediate),
+                .branch(branch),
                 .write_value(0),
                 .r_a(r_a),
                 .r_b(r_b)
@@ -164,6 +180,8 @@ always_ff @(posedge clk or posedge reset) begin
             );
              // memory access :(
             data_memory dm(
+                .clk(clk),
+                .reset(reset),
                 .mem_read(mem_read),
                 .mem_write(mem_write),
                 .r_a(r_a),
@@ -176,19 +194,23 @@ always_ff @(posedge clk or posedge reset) begin
                 .mem_out(data_out),
                 .write_value(write_value)
             );
-            // write back result
-            register_file rf(
-                .reset(reset),
-                .finished_step(1),
+            register_file rf (
+                .clk(clk),
+                .reset(reset),  
+                .finished_step(1),  
                 .instruction(instruction),
-                .write_reg(write_reg),
+                .write_reg(write_reg), 
+                .mem_read(mem_read),     
                 .use_immediate(use_immediate),
-                .write_value(write_value), // fill this in with the result of ALU or memory
-                .r_a(r_a),
+                .branch(branch),
+                .write_value(write_value),
+                .r_a(r_a),  
                 .r_b(r_b)
             );
             // increment pc
             program_counter pc(
+                .clk(clk),
+                .reset(reset),
                 .current_pc(pc),
                 .instruction(instruction),
                 .branch(branch),
@@ -206,6 +228,8 @@ always_ff @(posedge clk or posedge reset) begin
         while (!done) begin
             // read instruction at pc
             instruction_memory im(
+                .clk(clk),
+                .reset(reset),
                 .pc(pc),
                 .instruction(instruction)
             );
@@ -230,11 +254,14 @@ always_ff @(posedge clk or posedge reset) begin
                 .alu_opcode(alu_opcode)
             );
             register_file rf(
+                .clk(clk),
                 .reset(reset),
                 .finished_step(0),
                 .instruction(instruction),
                 .write_reg(write_reg),
+                .mem_read(mem_read),
                 .use_immediate(use_immediate),
+                .branch(branch),
                 .write_value(0),
                 .r_a(r_a),
                 .r_b(r_b)
@@ -256,6 +283,8 @@ always_ff @(posedge clk or posedge reset) begin
             );
              // memory access :(
             data_memory dm(
+                .clk(clk),
+                .reset(reset),
                 .mem_read(mem_read),
                 .mem_write(mem_write),
                 .r_a(r_a),
@@ -268,19 +297,23 @@ always_ff @(posedge clk or posedge reset) begin
                 .mem_out(data_out),
                 .write_value(write_value)
             );
-            // write back result
-            register_file rf(
-                .reset(reset),
-                .finished_step(1),
+            register_file rf (
+                .clk(clk),
+                .reset(reset),  
+                .finished_step(1),  
                 .instruction(instruction),
-                .write_reg(write_reg),
+                .write_reg(write_reg), 
+                .mem_read(mem_read),     
                 .use_immediate(use_immediate),
-                .write_value(write_value), // fill this in with the result of ALU or memory
-                .r_a(r_a),
+                .branch(branch),
+                .write_value(write_value),
+                .r_a(r_a),  
                 .r_b(r_b)
             );
             // increment pc
             program_counter pc(
+                .clk(clk),
+                .reset(reset),
                 .current_pc(pc),
                 .instruction(instruction),
                 .branch(branch),

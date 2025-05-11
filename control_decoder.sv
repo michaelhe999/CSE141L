@@ -5,9 +5,8 @@ module control_decoder (
     output logic write_reg, // 0 if not writing to register, 1 if writing to register
     output logic mem_to_reg, // 0 if not writing to memory, 1 if writing to memory
     output logic mem_read, // 0 if not reading from memory, 1 if reading from memory
-    output logic mem_write // 0 if not writing to memory, 1 if writing to memory
+    output logic mem_write, // 0 if not writing to memory, 1 if writing to memory
     output logic use_immediate // 0 if not r1 = r0 + immediate, 1 if r1 = r0 + immediate
-    
 );
 
     always_comb begin

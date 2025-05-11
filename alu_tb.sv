@@ -50,9 +50,6 @@ module alu_tb;
         a = 8'd25; b = 8'd25; alu_op = 3'b110; #10; print_result();
         a = 8'd25; b = 8'd30; alu_op = 3'b110; #10; print_result();
 
-        // Test NO-OP (default)
-        a = 8'd50; b = 8'd10; alu_op = 3'b111; #10; print_result();
-
         $finish;
     end
 

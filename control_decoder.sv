@@ -13,7 +13,7 @@ module control_decoder (
     always_comb begin
         branch = 0; // default value: will we maybe branch if condition is met
         alu_op = 0; // default value: do we need to use the alu
-        write_reg = 0; // default value: will we write to r1
+        write_reg = 0; // default value: will we write to a register
         mem_to_reg = 0; // default value: will we use output of ALU or data in memory to write to r1
         mem_read = 0; // default value: will we read from memory
         mem_write = 0; // default value: will we write to memory
@@ -32,7 +32,7 @@ module control_decoder (
             alu_op = 1;
         end
         else if type == 2'b10 begin
-            write_reg = 1; //will write to r1
+            write_reg = 1; //will write to any register
             alu_op = 1;
             use_immediate = 1; //will use immediate value
         end

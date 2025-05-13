@@ -5,9 +5,9 @@ module top_level (
     output logic done
 );
 
-pc = 0;
-done = 0;
-done_count = 0;
+logic [31:0] pc = 0;
+logic done = 0;
+logic [1:0] done_count = 0;
 
 always_ff @(posedge clk or posedge reset) begin
     if (reset) begin
@@ -27,7 +27,7 @@ always_ff @(posedge clk or posedge reset) begin
                 .pc(pc),
                 .instruction(instruction)
             );
-            if instruction == 010000000 begin
+            if (instruction == 010000000) begin
                 done = 1;
             end
             // decode instruction
@@ -130,7 +130,7 @@ always_ff @(posedge clk or posedge reset) begin
                 .pc(pc),
                 .instruction(instruction)
             );
-            if instruction == 010000000 begin
+            if (instruction == 010000000) begin
                 done = 1;
             end
             // decode instruction
@@ -233,7 +233,7 @@ always_ff @(posedge clk or posedge reset) begin
                 .pc(pc),
                 .instruction(instruction)
             );
-            if instruction == 010000000 begin
+            if (instruction == 010000000) begin
                 done = 1;
             end
             // decode instruction

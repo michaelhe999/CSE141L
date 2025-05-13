@@ -7,8 +7,8 @@ module alu_control (
 
     always_comb begin
         alu_opcode = 3'b000; // default value
-        if alu_op == 1 begin
-            if branch == 1 begin
+        if (alu_op == 1) begin
+            if (branch == 1) begin
                 alu_opcode = 3'b110; // compare not equal
             end 
             else begin

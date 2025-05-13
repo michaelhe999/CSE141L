@@ -6,7 +6,7 @@ module instruction_memory(
 );
 
     always_comb begin
-        instruction = 9'b000000000 //value at pc; temporary value for now
+        instruction = 9'b000000000; //value at pc; temporary value for now
     end
 
 endmodule

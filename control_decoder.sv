@@ -48,6 +48,5 @@ module control_decoder (
             end
         end
     end
-);
 
 endmodule

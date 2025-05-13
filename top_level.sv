@@ -5,9 +5,9 @@ module top_level (
     output logic done
 );
 
-logic [31:0] pc = 0;
-logic done = 0;
-logic [1:0] done_count = 0;
+logic [31:0] pc;
+logic done;
+logic [1:0] done_count;
 
 always_ff @(posedge clk or posedge reset) begin
     if (reset) begin

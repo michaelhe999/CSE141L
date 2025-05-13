@@ -8,7 +8,7 @@ module control_decoder (
     output logic mem_write, // 0 if not writing to memory, 1 if writing to memory
     output logic use_immediate // 0 if not r1 = r0 + immediate, 1 if r1 = r0 + immediate
 );
-    logic [1:0] type;
+    logic [1:0] i_type;
     logic r_w;
 
     always_comb begin
@@ -21,18 +21,18 @@ module control_decoder (
         use_immediate = 0; // default value: will we use immediate value (custom to our ISA); basically if we load an immediate into r1
 
         
-        type = instruction[8:7];
+        i_type = instruction[8:7];
         
         r_w = instruction[6];
-        if (type == 2'b00) begin
+        if (i_type == 2'b00) begin
             alu_op = 1;
             write_reg = 1; //will write to r1
         end 
-        else if (type == 2'b01) begin
+        else if (i_type == 2'b01) begin
             branch = 1;
             alu_op = 1;
         end
-        else if (type == 2'b10) begin
+        else if (i_type == 2'b10) begin
             write_reg = 1; //will write to any register
             alu_op = 1;
             use_immediate = 1; //will use immediate value

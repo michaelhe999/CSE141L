@@ -11,13 +11,13 @@ module data_memory(
 always_comb begin
     data_out = 8'b0; // default value
     if (mem_read) begin
-        data_out = 0; //value at address r_a (fake value for now)
+        data_out =  8'b0; //value at address r_a (fake value for now)
     end else if (mem_write) begin
-        data_out = 0; //address at r_a gets value r_b (fake value for now)
+        data_out =  8'b0; //address at r_a gets value r_b (fake value for now)
     end else begin
         data_out = 8'b0; // default value
     end
-endcase
+end
 
 
 

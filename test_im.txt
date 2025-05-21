@@ -1,0 +1,14 @@
+and 1 2
+add 1 2
+xor 1 2
+slt 1 2
+sll 1 2
+srl 1 2
+neq 1 2
+done
+beq -5
+beq 5
+li -5
+li 10
+lw 1 2
+sw 1 2

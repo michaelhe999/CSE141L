@@ -57,7 +57,7 @@ module top_level (
         .clk(clk),
         .reset(reset),
         .pc(current_pc),
-        .instruction(instruction) // Connect to the output of the instruction memory
+        .instruction(instruction)
     );
 
     control_decoder cd (
@@ -66,7 +66,10 @@ module top_level (
         .write_en(write_en),
         .mem_read(mem_read),
         .mem_write(mem_write),
-        .use_immediate(use_immediate)
+        .use_immediate(use_immediate), 
+        .done(done) // Output done signal
+        .write_reg_en(write_reg_en)
+        .special_en(special_en) // Output special instruction enable signal
     );
 
     instruction_parser ip (
@@ -80,7 +83,7 @@ module top_level (
     mux write_reg_mux #(.WIDTH(2)) (
         .input_0(2'b01), // Default destination register
         .input_1(r_b), // Variable destination register for memory read
-        .select(mem_read),
+        .select(write_reg_en),
         .output(write_reg) // Destination register for writing
     )
 
@@ -129,6 +132,13 @@ module top_level (
         .input_0(data_b_1), // Data from register A
         .input_1(data_r1), // Data from register 1
         .select(branch_en), // Select between data_a and data_r1
+        .output(data_b_2) // Input to ALU for operation
+    );
+
+    mux special_en_mux (
+        .input_0(data_b_2), // Data from register B
+        .input_1(8'b00000000), // all 0s for special instruction
+        .select(special_en), // Select between data_b and 0s
         .output(alu_input_b) // Input to ALU for operation
     );
 
@@ -158,13 +168,13 @@ module top_level (
     );
 
     mux #(.WIDTH(32)) pc_src_mux (
-        .input_a(current_pc + 4), // Default next PC is current PC + 4
+        .input_a(current_pc + 1), // Default next PC is current PC + 4
         .input_b(current_pc + {{24{immediate[7]}}, immediate}), // Sign-extended immediate value
         .select(branch_en & zero), // Select the branch target if branch is taken and zero flag is set
         .output(next_pc) // Output the next PC value
     );
 
-    
+
 
 // FSM STATES
 

@@ -58,7 +58,7 @@ module top_level (
     instruction_memory im (
         .clk(clk),
         .reset(reset),
-        .pc(current_pc),
+        .current_pc(current_pc),
         .instruction(instruction)
     );
 

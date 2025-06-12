@@ -67,8 +67,8 @@ module top_level (
         .mem_read(mem_read),
         .mem_write(mem_write),
         .use_immediate(use_immediate), 
-        .done(done) // Output done signal
-        .write_reg_en(write_reg_en)
+        .done(done), // Output done signal
+        .write_reg_en(write_reg_en),
         .special_en(special_en) // Output special instruction enable signal
     );
 
@@ -96,7 +96,7 @@ module top_level (
         .write_reg(write_reg), // Register to write to
         .write_value(write_value), // Value to write to the register
         .data_a(data_a), // Data value in register A
-        .data_b(data_b) // Data value in register B
+        .data_b(data_b), // Data value in register B
         .data_r1(data_r1) // Data value in register 1
     );
 
@@ -146,7 +146,7 @@ module top_level (
         .alu_input_a(alu_input_a), // Input A to ALU
         .alu_input_b(alu_input_b), // Input B to ALU
         .alu_opcode(alu_opcode), // ALU operation code
-        .alu_out(alu_out) // Output from ALU to write to register
+        .alu_out(alu_out), // Output from ALU to write to register
         .zero(zero) // Zero flag for branch condition
     );
 

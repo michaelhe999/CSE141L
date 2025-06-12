@@ -22,7 +22,7 @@ module control_decoder (
         write_reg_en = 0; // default value: will we write to r1
 
         // Handle special instructions
-        if (instruction == 9'b010000000) then begin
+        if (instruction == 9'b010000000) begin
             done = 1; // Special instruction to indicate done
         end else if (instruction == 9'b000000100) begin // move r0 r1: AND R1 R0
             write_en = 1; // will write to a register

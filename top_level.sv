@@ -72,6 +72,7 @@ module top_level (
     program_counter pc (
         .clk(clk),
         .reset(reset),
+        .current_pc(current_pc), 
         .zero(zero),
         .branch_en(branch_en),
         .immediate(immediate),
@@ -197,6 +198,18 @@ module top_level (
         .select(mem_read), // Select between ALU output and memory output
         .output_1(write_value) // Value to write to register file
     );
+
+    always_ff @(posedge clk or posedge reset) begin
+        if (reset)
+            current_pc <= 0;
+        else
+            if (branch_en && zero) begin
+                // If branch is enabled and zero flag is set, add immediate value to current PC
+                current_pc <=  current_pc_out + 1 + {{24{immediate[7]}}, immediate};
+            end else begin
+                current_pc <= current_pc_out + 1;
+            end
+    end
 
     always_ff @(posedge clk) begin
     if (reset) begin

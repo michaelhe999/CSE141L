@@ -13,7 +13,7 @@ module control_decoder (
     logic r_w;
 
     always_comb begin
-        branch = 0; // default value: will we maybe branch if condition is met
+        branch_en = 0; // default value: will we maybe branch if condition is met
         write_en = 0; // default value: will we write to a register
         mem_read = 0; // default value: will we read from memory
         mem_write = 0; // default value: will we write to memory
@@ -22,7 +22,7 @@ module control_decoder (
         write_reg_en = 0; // default value: will we write to r1
 
         // Handle special instructions
-        if instruction == 9'b010000000 then begin
+        if (instruction == 9'b010000000) then begin
             done = 1; // Special instruction to indicate done
         end else if (instruction == 9'b000000100) begin // move r0 r1: AND R1 R0
             write_en = 1; // will write to a register
@@ -81,7 +81,7 @@ module control_decoder (
             write_en = 1; //will write to r1
         end 
         else if (i_type == 2'b01) begin // Branch instruction
-            branch = 1;
+            branch_en = 1;
         end
         else if (i_type == 2'b10) begin // I-type instruction
             write_en = 1; //will write to any register

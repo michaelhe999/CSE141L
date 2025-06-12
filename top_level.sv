@@ -6,7 +6,7 @@ module top_level (
 );
 
     // Internal signals
-    logic [31:0] current_pc; // Program counter\
+    // logic [31:0] current_pc; // Program counter
     logic [31:0] current_pc_out; // Output from program counter
 
     logic [8:0] instruction; // Instruction from instruction memory
@@ -72,7 +72,7 @@ module top_level (
     program_counter pc (
         .clk(clk),
         .reset(reset),
-        .current_pc(current_pc), // Initial PC value
+        // .current_pc(current_pc), // Initial PC value
         .zero(zero),
         .branch_en(branch_en),
         .immediate(immediate),

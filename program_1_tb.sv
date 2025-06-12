@@ -40,7 +40,8 @@ module program_1_tb();
   end
 
   initial begin				 // test sequence
-    $monitor("data_mem.core0, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.dm.mem_core[3],$time);
+    $monitor("data_mem.core0 mem3, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.dm.mem_core[3],$time);
+	$monitor("data_mem.core0 mem2, 1 = %b  %b %t",f0.data_mem1.mem_core[2],f1.dm.mem_core[2],$time);
 
     //#20ns reset = '0;
 	disp2(int_in);			 // subroutine call

@@ -21,7 +21,7 @@ module TopLevel0 (
   bit            mem_write;				// write enable
   bit     [7:0]  data_b;				// data input port 
   wire    [7:0]  data_out;				// data output port
-  data_mem       data_memory1(.*);	  		// dummy data_memory for compatibility
+  data_memory       data_mem1(.*);	  		// dummy data_memory for compatibility
 
   always @(posedge clk) begin
 	if(reset) begin 

@@ -46,21 +46,16 @@ module top_level (
 
     logic [31:0] next_pc; // Next PC value
     // Instantiate the modules
-    logic[15:0] CycleCount;
+    logic[15:0] cycle_count;
 
     logic should_run_processor;
     logic ever_start;
 
-    always_ff @(posedge Clk) begin
-    if (Reset)
+    always_ff @(posedge clk) begin
+    if (reset)
         ever_start <= '0;
-    else if (Start)
+    else if (start)
         ever_start <= '1;
-    end
-
-    always_comb begin
-        should_run_processor = ever_start & ~Start;
-        Active_InstOut = (should_run_processor) ? IR1_InstOut_out : 9'b010000000; //DONE
     end
     
 
@@ -81,8 +76,13 @@ module top_level (
         .instruction(instruction)
     );
 
+    always_comb begin
+        should_run_processor = ever_start & ~start;
+        check_instruction = (should_run_processor) ? instruction : 9'b010000000; //DONE
+    end
+
     control_decoder cd (
-        .instruction(instruction),
+        .instruction(check_instruction),
         .branch_en(branch_en),
         .write_en(write_en),
         .mem_read(mem_read),
@@ -189,13 +189,13 @@ module top_level (
         .output_1(write_value) // Value to write to register file
     );
 
-    always_ff @(posedge Clk) begin
-    if (Reset)  
-        CycleCount <= 0;
-    else if(Ctrl1_Ack_out == 0)   
-        CycleCount <= CycleCount + 'b1;
-    else if(CycleCount >= 4096)
-        Ctrl1_Ack_out = 1; 
+    always_ff @(posedge clk) begin
+    if (reset)  
+        cycle_count <= 0;
+    else if(done == 0)   
+        cycle_count <= cycle_count + 'b1;
+    else if(cycle_count >= 4096)
+        done = 1; 
     end
 
 

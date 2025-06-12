@@ -41,7 +41,6 @@ module program_1_tb();
 
   initial begin				 // test sequence
     $monitor("data_mem.core0 mem3, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.dm.mem_core[3],$time);
-	$monitor("data_mem.core0 mem2, 1 = %b  %b %t",f0.data_mem1.mem_core[2],f1.dm.mem_core[2],$time);
 
     //#20ns reset = '0;
 	disp2(int_in);			 // subroutine call
@@ -234,6 +233,7 @@ task automatic disp2(input logic [15:0] int_in);
     endcase
 	end*/
 	flt_outM = float_M;
+	$display("My top_level output: %b",flt_out);
 
 	$display("IN=0x%h,  DUT=0x%h, REF=0x%h, MATH=0x%h",
 			int_in, flt_out, flt_out0, flt_outM);

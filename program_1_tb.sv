@@ -133,8 +133,10 @@ task automatic disp2(input logic [15:0] int_in);
 	f0.data_mem1.mem_core[1] = int_in[15:8];   // load operands into my memory
 	f0.data_mem1.mem_core[0] = int_in[ 7:0];
     //flt_out_M[15]     = sgn_M;                 // sign is a passthrough
-	#10ns req = 1;
-	#10ns req = 0;
+	req = 0;
+    @(posedge clk); req = 1;
+    @(posedge clk); req = 1; // Keep high for 2 cycles
+    @(posedge clk); req = 0;
 	wait(ack);
 	wait(ack0);
 	#10ns;

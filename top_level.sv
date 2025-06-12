@@ -64,7 +64,7 @@ module top_level (
     always_ff @(posedge clk) begin
     if (reset)
         start_off <= '0;
-    else if (start)
+    else if (ever_start & ~start)
         start_off <= '1;
     end
     

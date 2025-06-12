@@ -8,7 +8,7 @@ module instruction_memory(
     logic [8:0] memory_array [4096]; // up to 4096 instructions (can change), 9-bit each
 
     initial begin
-        $readmemb("machine_code.txt", memory_array); // load instruction memory from file
+        $readmemb("program_1_machinecode.txt", memory_array); // load instruction memory from file
     end
 
     always_comb begin

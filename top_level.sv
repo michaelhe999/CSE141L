@@ -80,7 +80,7 @@ module top_level (
         .immediate(immediate)
     )
 
-    mux write_reg_mux #(.WIDTH(2)) (
+    mux #(.WIDTH(2)) write_reg_mux (
         .input_0(2'b01), // Default destination register
         .input_1(r_b), // Variable destination register for memory read
         .select(write_reg_en),
@@ -100,7 +100,7 @@ module top_level (
         .data_r1(data_r1) // Data value in register 1
     );
 
-    mux alu_opcode_mux #(.WIDTH(3)) (
+    mux #(.WIDTH(3)) alu_opcode_mux (
         .input_0(opcode), // Given opcode
         .input_1(3'b110), // ALU operation for branching
         .select(branch_en), // Select ALU operation based on branch enable

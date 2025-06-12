@@ -39,6 +39,13 @@ module program_1_tb();
 	#5ns clk = '0;
   end
 
+  always @(posedge clk) begin
+		if f1.current_pc_out%20 == 0 begin
+			$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
+				$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
+		end
+	end
+
   initial begin				 // test sequence
     $monitor("data_mem.core0 mem3, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.dm.mem_core[3],$time);
 
@@ -88,13 +95,6 @@ module program_1_tb();
 	  end
 	end
   end
-
-  always @(posedge clk) begin
-		if f1.current_pc_out%20 == 0 begin
-			$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
-				$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
-		end
-	end
 
 task automatic disp2(input logic [15:0] int_in);
 	// locals

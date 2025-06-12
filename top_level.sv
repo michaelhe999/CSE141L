@@ -51,6 +51,7 @@ module top_level (
 
     logic should_run_processor;
     logic ever_start;
+    logic overflow; 
 
     always_ff @(posedge clk) begin
     if (reset)
@@ -93,7 +94,7 @@ module top_level (
         .write_reg_en(write_reg_en),
         .special_en(special_en) // Output special instruction enable signal
     );
-    assign ack = should_run_processor & done;
+    assign ack = (should_run_processor & done) || overflow;
 
     instruction_parser ip (
         .instruction(instruction),
@@ -196,7 +197,7 @@ module top_level (
     else if(ack == 0)   
         cycle_count <= cycle_count + 'b1;
     else if(cycle_count >= 4096)
-        ack = 1; 
+        overflow = 1; 
     end
 
 

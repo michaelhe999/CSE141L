@@ -3,7 +3,7 @@ module mux #(parameter WIDTH = 8) // Width of the input signals
     input  logic [WIDTH-1:0] input_0, // chosen when select is 0
     input  logic [WIDTH-1:0] input_1, // chosen when select is 1
     input  logic select, // 0 or 1 to choose between input_0 and input_1
-    output logic [WIDTH-1:0] output // output based on select
+    output logic [WIDTH-1:0] output_1, // output based on select
 );
 
     always_comb begin

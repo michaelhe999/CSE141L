@@ -84,7 +84,7 @@ module top_level (
         .input_0(2'b01), // Default destination register
         .input_1(r_b), // Variable destination register for memory read
         .select(write_reg_en),
-        .output(write_reg) // Destination register for writing
+        .output_1(write_reg) // Destination register for writing
     )
 
     register_file rf (
@@ -104,42 +104,42 @@ module top_level (
         .input_0(opcode), // Given opcode
         .input_1(3'b110), // ALU operation for branching
         .select(branch_en), // Select ALU operation based on branch enable
-        .output(alu_opcode) // ALU operation code
+        .output_1(alu_opcode) // ALU operation code
     );
 
     mux data_a_imm_mux (
         .input_0(data_a), // Data from register A
         .input_1(8'b00000000), // all 0s for setting immediate value
         .select(use_immediate), // Select between register data and 0s
-        .output(data_a_1) // Temp data_a value
+        .output_1(data_a_1) // Temp data_a value
     );
 
     mux data_b_imm_mux (
         .input_0(data_b), // Data from register A
         .input_1(immediate), // Immediate value from instruction
         .select(use_immediate), // Select between register data and immediate value
-        .output(data_b_1) // Temp data_b value
+        .output_1(data_b_1) // Temp data_b value
     );
 
     mux data_a_branch_mux (
         .input_0(data_a_1), // Data from register A
         .input_1(8'b00000000), // all 0s for checking branch condition
         .select(branch_en), // Select between data_a and 0s
-        .output(alu_input_a) // Input to ALU for operation
+        .output_1(alu_input_a) // Input to ALU for operation
     );
 
     mux data_b_branch_mux (
         .input_0(data_b_1), // Data from register A
         .input_1(data_r1), // Data from register 1
         .select(branch_en), // Select between data_a and data_r1
-        .output(data_b_2) // Input to ALU for operation
+        .output_1(data_b_2) // Input to ALU for operation
     );
 
     mux special_en_mux (
         .input_0(data_b_2), // Data from register B
         .input_1(8'b00000000), // all 0s for special instruction
         .select(special_en), // Select between data_b and 0s
-        .output(alu_input_b) // Input to ALU for operation
+        .output_1(alu_input_b) // Input to ALU for operation
     );
 
     alu alu (
@@ -164,14 +164,14 @@ module top_level (
         .input_0(alu_out), // ALU output
         .input_1(data_out), // Memory output
         .select(mem_read), // Select between ALU output and memory output
-        .output(write_value) // Value to write to register file
+        .output_1(write_value) // Value to write to register file
     );
 
     mux #(.WIDTH(32)) pc_src_mux (
         .input_a(current_pc + 1), // Default next PC is current PC + 4
         .input_b(current_pc + 1 + {{24{immediate[7]}}, immediate}), // Sign-extended immediate value
         .select(branch_en & zero), // Select the branch target if branch is taken and zero flag is set
-        .output(next_pc) // Output the next PC value
+        .output_1(next_pc) // Output the next PC value
     );
 
 

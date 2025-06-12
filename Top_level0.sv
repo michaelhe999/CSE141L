@@ -16,12 +16,12 @@ module TopLevel0 (
   logic        trap;                    // max neg or 0 input
   bit  [ 1:0]  pgm;                     // counts 1, 2, 3 program
 // port connections to dummy data_mem
-  bit     [7:0]  DataAddress;		    // pointer
-  bit            ReadMem = 1'b1;		// can leave enabled	
-  bit            WriteMem;				// write enable
-  bit     [7:0]  DataIn;				// data input port 
-  wire    [7:0]  DataOut;				// data output port
-  data_mem       data_mem1(.*);	  		// dummy data_memory for compatibility
+  bit     [7:0]  data_a;		    // pointer
+  bit            mem_read = 1'b1;		// can leave enabled	
+  bit            mem_write;				// write enable
+  bit     [7:0]  data_b;				// data input port 
+  wire    [7:0]  data_out;				// data output port
+  data_mem       data_memory(.*);	  		// dummy data_memory for compatibility
 
   always @(posedge clk) begin
 	if(reset) begin 

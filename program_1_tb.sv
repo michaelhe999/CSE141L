@@ -5,7 +5,7 @@
 // (ideally, all three should agree :) )
 // keyword bit is same as logic, except it self-initializes
 //  to 0 and cannot take on x or z value
-module new_int2flt_tb();
+module program_1_tb();
   bit       clk       , 
             reset = '1,
             req;
@@ -40,7 +40,7 @@ module new_int2flt_tb();
   end
 
   initial begin				 // test sequence
-    $monitor("data_mem.core0, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.data_mem1.mem_core[3],$time);
+    $monitor("data_mem.core0, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.dm.mem_core[3],$time);
 
     //#20ns reset = '0;
 	disp2(int_in);			 // subroutine call
@@ -128,8 +128,8 @@ task automatic disp2(input logic [15:0] int_in);
 	#10ns;
 	reset = 0;
 
-	f1.data_mem1.mem_core[1] = int_in[15:8];   // load operands into your memory
-	f1.data_mem1.mem_core[0] = int_in[ 7:0];
+	f1.dm.mem_core[1] = int_in[15:8];   // load operands into your memory
+	f1.dm.mem_core[0] = int_in[ 7:0];
 	f0.data_mem1.mem_core[1] = int_in[15:8];   // load operands into my memory
 	f0.data_mem1.mem_core[0] = int_in[ 7:0];
     //flt_out_M[15]     = sgn_M;                 // sign is a passthrough
@@ -138,7 +138,7 @@ task automatic disp2(input logic [15:0] int_in);
 	wait(ack);
 	wait(ack0);
 	#10ns;
-  	flt_out  = {f1.data_mem1.mem_core[3],f1.data_mem1.mem_core[2]};	 // results from your memory
+  	flt_out  = {f1.dm.mem_core[3],f1.dm.mem_core[2]};	 // results from your memory
     flt_out0 = {f0.data_mem1.mem_core[3],f0.data_mem1.mem_core[2]};	 // results from my dummy DUT
     $display("what's feeding the case %b",int_in);
 	// exp_M  = '0;                           // initial point -- override as needed		   

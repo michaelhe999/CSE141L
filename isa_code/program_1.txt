@@ -123,7 +123,7 @@ move 1 0 # R0 holds the exp bits in the right spot
 xor 0 2 # R1 = sign bit + exp + 00
 move 1 0 # R1 moved into R0
 li 0000110 # Load 6 into R1
-beq 0001101 # 13; i in MSW branches here, chain to destination
+beq 0010011 # 19; i in MSW branches here, chain to destination
 srl 3 1 # Shift R3 to be the 2 bits of MSW
 xor 0 1 # R1 = MSW
 move 1 0 # R0 = MSW
@@ -134,6 +134,12 @@ sll 3 1 # R1 = R3 << 2 = LSW
 move 1 0 # R0 = LSW
 li 0000010 # Load 2 into R1
 sw 1 0 # LSW stored!
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
 li 0000000 # NOP
 li 0000000 # NOP
 done # Done with program
@@ -155,7 +161,7 @@ add 1 3 # R1 = 8 - R3
 move 1 3 # Move value into R3
 li 0000010 Move 2 into R1
 slt 2 1 # Checking if we need to move bits from mem0 into mem1
-beq 0111111 # 63; (done handling needing mem0 bits) if not less than, no need to handle silly case 
+beq 0111100 # 60; (done handling needing mem0 bits) if not less than, no need to handle silly case 
 {
     move 2 1 # Moves position of first 1 bit into R1
     beq 0101000 # 40; (handle the case where bit 0 of mem1 is 1)
@@ -199,6 +205,12 @@ beq 0111111 # 63; (done handling needing mem0 bits) if not less than, no need to
         sw 1 0 # mem2 DONE!
         li 0000000 # NOP
         li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
         done # PROGRAM DONE FOR 1 BIT OF MANTISSA IN MSW
     }
     li 0010001 # Load 17 into R1; BRANCH HERE FOR CASE WHERE NO MANTISSA IN MSW
@@ -213,6 +225,7 @@ beq 0111111 # 63; (done handling needing mem0 bits) if not less than, no need to
     sll 3 1 # R1 = R3 << 7
     move 1 3 # Store sign bit (in the right place) into R3
     li 0000010 # Load 2 into R1
+    beq 0011000 # 24; (Chain Jump) CHAINED JUMP FOR >= 2 BITS OF MANTISSA IN MSW
     sll 0 1 # Shift exp field 2 left
     xor 1 3 # R1 is sign + exp
     xor 1 2 # R1 is sign + exp + first 2 bits of mem0
@@ -222,12 +235,17 @@ beq 0111111 # 63; (done handling needing mem0 bits) if not less than, no need to
     li 0000010 # Load 1 into R1; Get mem0, shift left by 2, store into mem2
     move 1 0 # Move 2 into R0
     li 0010001 # Load 17 into R1
-    beq 0001000 # 8; (Chain Jump) CHAINED JUMP FOR >= 2 BITS OF MANTISSA IN MSW
     lw 1 1 # Load mem0 into r1
     sll 1 0 # R1 = R1 << 2, correct mem2!
     move 1 0 # Move mem2 to R0
     li 0000010 # Load 2 into R1
     sw 1 0 # mem2 DONE!
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
     li 0000000 # NOP
     li 0000000 # NOP
     done # PROGRAM DONE FOR 0 BITS OF MANTISSA IN MSW
@@ -274,6 +292,12 @@ xor 0 1 # R1 = R0 XOR R1; this is mem2
 move 1 0 # move mem2 to R0
 li 0000010 # Load 2 into R1
 sw 1 0 # mem2 DONE!!
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
 li 0000000 # NOP
 li 0000000 # NOP
 done # YIPPEEEEEE

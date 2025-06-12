@@ -34,6 +34,8 @@ module top_level (
     logic [7:0] data_a_1; // Temporary data_a value for ALU operation
     logic [7:0] data_b_1; // Temporary data_b value for ALU operation
 
+    logic [7:0] data_b_2; // Temporary data_b value for ALU operation
+
     logic [7:0] alu_input_a; // Input to ALU for operation
     logic [7:0] alu_input_b; // Input to ALU for operation
 
@@ -168,8 +170,8 @@ module top_level (
     );
 
     mux #(.WIDTH(32)) pc_src_mux (
-        .input_a(current_pc + 1), // Default next PC is current PC + 4
-        .input_b(current_pc + 1 + {{24{immediate[7]}}, immediate}), // Sign-extended immediate value
+        .input_0(current_pc + 1), // Default next PC is current PC + 4
+        .input_1(current_pc + 1 + {{24{immediate[7]}}, immediate}), // Sign-extended immediate value
         .select(branch_en & zero), // Select the branch target if branch is taken and zero flag is set
         .output_1(current_pc) // Output the next PC value
     );

@@ -11,6 +11,7 @@ module control_decoder (
 );
     logic [1:0] instruction_type;
     logic r_w;
+    logic [1:0] i_type; // Instruction type: 00 for R-type, 01 for branch, 10 for I-type, 11 for load/store
 
     always_comb begin
         branch_en = 0; // default value: will we maybe branch if condition is met

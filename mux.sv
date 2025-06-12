@@ -8,9 +8,9 @@ module mux #(parameter WIDTH = 8) // Width of the input signals
 
     always_comb begin
         if (select) begin
-            output = input_1; // if select is 1, choose input_1
+            output_1 = input_1; // if select is 1, choose input_1
         end else begin
-        output = input_0; // if select is 0, choose input_0
+            output_1 = input_0; // if select is 0, choose input_0
         end
     end
 

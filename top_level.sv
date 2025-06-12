@@ -85,7 +85,7 @@ module top_level (
         .input_1(r_b), // Variable destination register for memory read
         .select(write_reg_en),
         .output_1(write_reg) // Destination register for writing
-    )
+    );
 
     register_file rf (
         .clk(clk),

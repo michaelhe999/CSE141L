@@ -140,6 +140,12 @@ task automatic disp2(input logic [15:0] int_in);
 	wait(ack);
 	wait(ack0);
 	#10ns;
+
+	// ✅ DEBUG PRINTS HERE
+	$display("[DEBUG] PC: %0d", f1.pc.current_pc_out);
+	$display("[DEBUG] instruction: %b", f1.im.instruction); 
+	$display("[DEBUG] done: %b", f1.control_decoder.done);
+	
   	flt_out  = {f1.dm.mem_core[3],f1.dm.mem_core[2]};	 // results from your memory
     flt_out0 = {f0.data_mem1.mem_core[3],f0.data_mem1.mem_core[2]};	 // results from my dummy DUT
     $display("what's feeding the case %b",int_in);

@@ -2,7 +2,7 @@ module top_level (
     input  logic        clk,
     input  logic        reset,             // async reset
     input  logic        start, 
-    output logic        done 
+    output logic        ack 
 );
 
     // Internal signals
@@ -93,7 +93,7 @@ module top_level (
         .write_reg_en(write_reg_en),
         .special_en(special_en) // Output special instruction enable signal
     );
-    assign done = should_run_processor & done;
+    assign ack = should_run_processor & done;
 
     instruction_parser ip (
         .instruction(instruction),
@@ -193,10 +193,10 @@ module top_level (
     always_ff @(posedge clk) begin
     if (reset)  
         cycle_count <= 0;
-    else if(done == 0)   
+    else if(ack == 0)   
         cycle_count <= cycle_count + 'b1;
     else if(cycle_count >= 4096)
-        done = 1; 
+        ack = 1; 
     end
 
 

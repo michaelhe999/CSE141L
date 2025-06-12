@@ -27,7 +27,7 @@ module program_1_tb();
     .clk  (clk),
 	.reset(reset),
 	.start(req),
-    .done (ack));	         // your ack is the one that counts
+    .ack (ack));	         // your ack is the one that counts
   TopLevel0 f0(				 // reference DUT goes here
     .clk  (clk),			 // 
     .start(req),			 //  

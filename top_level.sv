@@ -52,12 +52,20 @@ module top_level (
     logic should_run_processor;
     logic ever_start;
     logic overflow; 
+    logic start_off; 
 
     always_ff @(posedge clk) begin
     if (reset)
         ever_start <= '0;
     else if (start)
         ever_start <= '1;
+    end
+
+    always_ff @(posedge clk) begin
+    if (reset)
+        start_off <= '0;
+    else if (start)
+        start_off <= '1;
     end
     
 
@@ -79,8 +87,8 @@ module top_level (
     );
 
     always_comb begin
-        should_run_processor = ever_start & ~start;
-        check_instruction = (should_run_processor) ? instruction : 9'b010000000; //DONE
+        should_run_processor = ever_start & start_off;
+        check_instruction = (should_run_processor) ? instruction : 9'b100000000; //NOP
     end
 
     control_decoder cd (

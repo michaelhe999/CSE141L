@@ -88,7 +88,7 @@ module control_decoder (
             write_en = 1; //will write to any register
             use_immediate = 1; //will use immediate value
         end
-        else begin //Load/Store instruction
+        else begin // Load/Store instruction
             if (r_w) begin
                 mem_write = 1;
             end

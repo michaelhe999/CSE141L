@@ -10,6 +10,7 @@ module top_level (
     logic [31:0] current_pc_out; // Output from program counter
 
     logic [8:0] instruction; // Instruction from instruction memory
+    logic [8:0] check_instruction; // Instruction to check for control signals
 
     logic branch_en; // Branch enable signal
     logic write_en; // Write enable signal

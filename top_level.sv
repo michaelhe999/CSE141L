@@ -169,7 +169,7 @@ module top_level (
 
     mux #(.WIDTH(32)) pc_src_mux (
         .input_a(current_pc + 1), // Default next PC is current PC + 4
-        .input_b(current_pc + {{24{immediate[7]}}, immediate}), // Sign-extended immediate value
+        .input_b(current_pc + 1 + {{24{immediate[7]}}, immediate}), // Sign-extended immediate value
         .select(branch_en & zero), // Select the branch target if branch is taken and zero flag is set
         .output(next_pc) // Output the next PC value
     );

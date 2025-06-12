@@ -4,9 +4,9 @@ module control_decoder (
     output logic write_en, // 0 if not writing to register, 1 if writing to register
     output logic mem_read, // 0 if not reading from memory, 1 if reading from memory
     output logic mem_write, // 0 if not writing to memory, 1 if writing to memory
-    output logic use_immediate // 0 if not r1 = r0 + immediate, 1 if r1 = r0 + immediate
-    output logic done // 0 if not done, 1 if done
-    output logic write_reg_en // 0 if writing to r1, 1 if writing to any register
+    output logic use_immediate, // 0 if not r1 = r0 + immediate, 1 if r1 = r0 + immediate
+    output logic done, // 0 if not done, 1 if done
+    output logic write_reg_en, // 0 if writing to r1, 1 if writing to any register
     output logic special_en // 0 if not special instruction, 1 if special instruction
 );
     logic [1:0] instruction_type;

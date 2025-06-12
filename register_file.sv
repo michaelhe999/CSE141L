@@ -4,10 +4,10 @@ module register_file (
     input  logic [1:0]  r_a,               // register A to read from (0-3)
     input  logic [1:0]  r_b,               // register B to read from (0-3)
     input  logic        write_en,          // 1 to write to register
-    input  logic [1:0]  write_reg          // register to write to (0-3)
+    input  logic [1:0]  write_reg,          // register to write to (0-3)
     input  logic [7:0]  write_value,       // value to write
     output logic [7:0]  data_a,            // data value in register A
-    output logic [7:0]  data_b             // data value in register B
+    output logic [7:0]  data_b,             // data value in register B
     output logic [7:0]  data_r1            // data value in register 1
 );
 

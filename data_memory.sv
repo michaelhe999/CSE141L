@@ -11,8 +11,8 @@ module data_memory(
     logic [7:0] mem_core [256]; // 256 bytes of memory
 
     always_ff @(posedge clk)
-        if(mem_write) memory[data_a] <= data_b;
+        if(mem_write) mem_core[data_a] <= data_b;
 
-    assign data_out = memory[data_a];
+    assign data_out = mem_core[data_a];
 
 endmodule

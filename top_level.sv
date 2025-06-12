@@ -202,10 +202,11 @@ module top_level (
     always_ff @(posedge clk) begin
     if (reset)  
         cycle_count <= 0;
-    else if(ack == 0)   
-        cycle_count <= cycle_count + 'b1;
+        overflow <= 0;
     else if(cycle_count >= 4096)
         overflow = 1; 
+    else if(ack == 0)   
+        cycle_count <= cycle_count + 'b1;
     end
 
 

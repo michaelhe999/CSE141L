@@ -72,7 +72,6 @@ module top_level (
     program_counter pc (
         .clk(clk),
         .reset(reset),
-        // .current_pc(current_pc), // Initial PC value
         .zero(zero),
         .branch_en(branch_en),
         .immediate(immediate),

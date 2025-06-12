@@ -2,7 +2,7 @@ module top_level (
     input  logic        clk,
     input  logic        reset,             // async reset
     input  logic        start, 
-    output logic        done, 
+    output logic        done 
 );
 
     // Internal signals

@@ -6,45 +6,45 @@ module top_level (
 );
 
     // Internal signals
-    logic [31:0] current_pc; // Program counter
-    assign current_pc = 32'd0; // Initial PC value
+    logic [31:0] current_pc = 0; // Program counter
+    logic [31:0] current_pc_out = 0; // Output from program counter
 
-    logic [8:0] instruction; // Instruction from instruction memory
+    logic [8:0] instruction = 0; // Instruction from instruction memory
 
-    logic branch_en; // Branch enable signal
-    logic write_en; // Write enable signal
-    logic mem_read; // Memory read signal
-    logic mem_write; // Memory write signal
-    logic use_immediate; // Use immediate value signal
+    logic branch_en = 0; // Branch enable signal
+    logic write_en = 0; // Write enable signal
+    logic mem_read = 0; // Memory read signal
+    logic mem_write = 0; // Memory write signal
+    logic use_immediate = 0; // Use immediate value signal
 
-    logic [2:0] opcode; // Opcode from instruction
-    logic [1:0] r_a; // Register A from instruction
-    logic [1:0] r_b; // Register B from instruction
-    logic [7:0] immediate; // Immediate value from instruction
+    logic [2:0] opcode = 0; // Opcode from instruction
+    logic [1:0] r_a = 0; // Register A from instruction
+    logic [1:0] r_b = 0; // Register B from instruction
+    logic [7:0] immediate = 0; // Immediate value from instruction
 
     logic [1:0] write_reg; // Register to write to
 
-    logic [7:0] write_value; // Value to write to the register
-    logic [7:0] data_a; // Data value in register A
-    logic [7:0] data_b; // Data value in register B
-    logic [7:0] data_r1; // Data value in register 1
+    logic [7:0] write_value = 0; // Value to write to the register
+    logic [7:0] data_a = 0; // Data value in register A
+    logic [7:0] data_b = 0; // Data value in register B
+    logic [7:0] data_r1 = 0; // Data value in register 1
 
-    logic [2:0] alu_opcode; // ALU operation code
+    logic [2:0] alu_opcode = 0; // ALU operation code
 
-    logic [7:0] data_a_1; // Temporary data_a value for ALU operation
-    logic [7:0] data_b_1; // Temporary data_b value for ALU operation
+    logic [7:0] data_a_1 = 0; // Temporary data_a value for ALU operation
+    logic [7:0] data_b_1 = 0; // Temporary data_b value for ALU operation
 
-    logic [7:0] data_b_2; // Temporary data_b value for ALU operation
+    logic [7:0] data_b_2 = 0; // Temporary data_b value for ALU operation
 
-    logic [7:0] alu_input_a; // Input to ALU for operation
-    logic [7:0] alu_input_b; // Input to ALU for operation
+    logic [7:0] alu_input_a = 0; // Input to ALU for operation
+    logic [7:0] alu_input_b = 0; // Input to ALU for operation
 
-    logic [7:0] alu_out; // Output from ALU to write to register
-    logic zero; // Zero flag for branch condition
+    logic [7:0] alu_out = 0; // Output from ALU to write to register
+    logic zero = 0; // Zero flag for branch condition
 
-    logic [7:0] data_out; // Data read from memory
+    logic [7:0] data_out = 0; // Data read from memory
 
-    logic [31:0] next_pc; // Next PC value
+    logic [31:0] next_pc = 0; // Next PC value
 
     // Instantiate the modules
 
@@ -52,13 +52,16 @@ module top_level (
         .clk(clk),
         .reset(reset),
         .current_pc(current_pc), // Initial PC value
-        .current_pc_out(current_pc)
+        .zero(zero),
+        .branch_en(branch_en),
+        .immediate(immediate),
+        .current_pc_out(current_pc_out)
     );
 
     instruction_memory im (
         .clk(clk),
         .reset(reset),
-        .current_pc(current_pc),
+        .current_pc(current_pc_out),
         .instruction(instruction)
     );
 
@@ -168,15 +171,6 @@ module top_level (
         .select(mem_read), // Select between ALU output and memory output
         .output_1(write_value) // Value to write to register file
     );
-
-    mux #(.WIDTH(32)) pc_src_mux (
-        .input_0(current_pc + 1), // Default next PC is current PC + 4
-        .input_1(current_pc + 1 + {{24{immediate[7]}}, immediate}), // Sign-extended immediate value
-        .select(branch_en & zero), // Select the branch target if branch is taken and zero flag is set
-        .output_1(current_pc) // Output the next PC value
-    );
-
-
 
 // FSM STATES
 

@@ -46,6 +46,23 @@ module top_level (
 
     logic [31:0] next_pc; // Next PC value
     // Instantiate the modules
+    logic[15:0] CycleCount;
+
+    logic should_run_processor;
+    logic ever_start;
+
+    always_ff @(posedge Clk) begin
+    if (Reset)
+        ever_start <= '0;
+    else if (Start)
+        ever_start <= '1;
+    end
+
+    always_comb begin
+        should_run_processor = ever_start & ~Start;
+        Active_InstOut = (should_run_processor) ? IR1_InstOut_out : 9'b010000000; //DONE
+    end
+    
 
     program_counter pc (
         .clk(clk),
@@ -75,6 +92,7 @@ module top_level (
         .write_reg_en(write_reg_en),
         .special_en(special_en) // Output special instruction enable signal
     );
+    assign done = should_run_processor & done;
 
     instruction_parser ip (
         .instruction(instruction),
@@ -170,6 +188,16 @@ module top_level (
         .select(mem_read), // Select between ALU output and memory output
         .output_1(write_value) // Value to write to register file
     );
+
+    always_ff @(posedge Clk) begin
+    if (Reset)  
+        CycleCount <= 0;
+    else if(Ctrl1_Ack_out == 0)   
+        CycleCount <= CycleCount + 'b1;
+    else if(CycleCount >= 4096)
+        Ctrl1_Ack_out = 1; 
+    end
+
 
 // FSM STATES
 

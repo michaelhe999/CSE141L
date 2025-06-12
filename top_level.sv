@@ -78,7 +78,7 @@ module top_level (
         .r_a(r_a),
         .r_b(r_b),
         .immediate(immediate)
-    )
+    );
 
     mux #(.WIDTH(2)) write_reg_mux (
         .input_0(2'b01), // Default destination register

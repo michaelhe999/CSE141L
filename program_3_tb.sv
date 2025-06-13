@@ -155,12 +155,15 @@ module program_3_tb();
     flt2_real = (real'(flt2_mant/1024.0)) * real'(2.0**(flt2_exp));
 	//$display("flt1r = %18.10f",flt1_real);
 	//$display("flt2r = %18.10f",flt2_real);
-    if(flt1_sign == flt2_sign)
+    if(flt1_sign == flt2_sign) begin
       flt3_real = flt1_real + flt2_real;
-    else
-      flt3_real = flt1_real - flt2_real;   
-
-    $display("flt3b_real = %b  %b  %b",flt3_real[15],flt3_real[14:10],flt3_real[9:0]);
+      $display("flt3b_real = %b  %b  %b",flt3_real[15],flt3_real[14:10],flt3_real[9:0]);
+    end
+    else begin
+      flt3_real = flt1_real - flt2_real; 
+      $display("flt3b_real = %b  %b  %b",flt3_real[15],flt3_real[14:10],flt3_real[9:0]);  
+    end
+    
 // output from first DUT 
     $display("flt3b =  %b  %b  %b",flt3[15],flt3[14:10],flt3[9:0]);				 
     //$display("flt3d = %18.10f * 2**%d",real'(flt3_mant)/1024.0,flt3_exp);

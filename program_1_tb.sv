@@ -44,7 +44,10 @@ module program_1_tb();
 			$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
 				$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
 		end
-	end
+		if (cd.instruction == 9'b010000000) begin //done
+			$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
+		end
+  end
 
   initial begin				 // test sequence
     $monitor("data_mem.core0 mem3, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.dm.mem_core[3],$time);

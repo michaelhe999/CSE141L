@@ -22,7 +22,7 @@ xor 1 3 # apply the implicit 1
 move 1 3 # Move first 3 bits of mantissa with implied 1 to R3
 li 0000010 # Load 2 into R1
 slt 2 1 # If exp is more than or equal to 2, R1 = 1; otherwise R1 = 0
-beq 0011111 # 31; (NOT A SHIFT RIGHT CASE) 
+beq 0110111 # 55; (NOT A SHIFT RIGHT CASE) 
 {
     li 1111110 # This means that exp is greater than 2, which means we left shift; Load -2 into R1
     add 1 2 # Subtract 2 from exp
@@ -58,7 +58,7 @@ beq 0011111 # 31; (NOT A SHIFT RIGHT CASE)
     lw 1 0 # Move mem4 into R0
     li 0000111 # Load 7 into R1
     srl 0 1 # Shift so only sign bit remains
-    beq 0100100# 36; (positive, so done) 
+    beq 0110100 # 52; (positive, so done) 
     {
         li 0000110 # Not positive, so have to flip the bits and add 1; Load 6 into R1
         lw 1 0 # Load mem6 into R1 (LSW)
@@ -76,7 +76,7 @@ beq 0011111 # 31; (NOT A SHIFT RIGHT CASE)
         li 0000111 # Load 7 into R1
         srl 0 1 # Shift complemented LSW + 1 by 7
         neq 1 2 # Check if sign bits are equal; if not should handle (r1 will be 1)
-        beq 0001011 # 11; (no overflow); No need to handle overflow 
+        beq 0010011 # 19; (no overflow); No need to handle overflow 
         {
             li 0000111 # Handle overflow; Load 7 into R1
             lw 1 0 # Load mem7 into R1 (MSW)
@@ -88,6 +88,14 @@ beq 0011111 # 31; (NOT A SHIFT RIGHT CASE)
             move 1 3 # R3 is complemented plus 1 (overflow handled)
             li 0000111 # Load 7 into R1
             sw 1 3 # Finalized MSW is placed into mem7
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
             done
         }
         li 0000111 # No overflow branches here; Load 7 into R1
@@ -97,8 +105,24 @@ beq 0011111 # 31; (NOT A SHIFT RIGHT CASE)
         move 1 3 # Complemented MSW is in R3
         li 0000111 # Load 7 into R1
         sw 1 3 # Finalized MSW is placed into mem7
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
         done
     }
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
     done # BRANCH HERE FOR POSITIVE CASE
 }
 li 0000010 # BRANCH HERE for not shift right case; Check for equals 2; Load 2 into R1
@@ -139,7 +163,7 @@ beq 0111101 # 61; (handle the nice easy case :)
     lw 1 0 # Move mem4 into R0
     li 0000111 # Load 7 into R1
     srl 0 1 # Shift so only sign bit remains
-    beq 0100101 # 37; (positive, so done) 
+    beq 0110100 # 52; (positive, so done) 
     {
         li 0000110 # Not positive, so have to flip the bits and add 1; Load 6 into R1
         lw 1 0 # Load mem6 into R1 (LSW)
@@ -157,7 +181,7 @@ beq 0111101 # 61; (handle the nice easy case :)
         li 0000111 # Load 7 into R1
         srl 0 1 # Shift complemented LSW + 1 by 7
         neq 1 2 # Check if sign bits are equal; if not should handle (r1 will be 1)
-        beq 0001100 # 12; (no overflow); No need to handle overflow 
+        beq 0010011 # 19; (no overflow); No need to handle overflow 
         {
             li 0000111 # Handle overflow; Load 7 into R1
             lw 1 0 # Load mem7 into R1 (MSW)
@@ -168,8 +192,16 @@ beq 0111101 # 61; (handle the nice easy case :)
             add 1 3 # R1 is complemented plus 1
             move 1 3 # R3 is complemented plus 1 (overflow handled)
             li 0000111 # Load 7 into R1
-            branch 0001011 # 11; (chain to easy case)
+            beq 0100011 # 35; (chain jump to easy case) 
             sw 1 3 # Finalized MSW is placed into mem7
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
+            li 0000000 # NOP
             done
         }
         li 0000111 # No overflow branches here; Load 7 into R1
@@ -179,8 +211,24 @@ beq 0111101 # 61; (handle the nice easy case :)
         move 1 3 # Complemented MSW is in R3
         li 0000111 # Load 7 into R1
         sw 1 3 # Finalized MSW is placed into mem7
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
         done
     }
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
     done # BRANCH HERE FOR POSITIVE CASE
 }
 li 0000111 # BRANCH HERE FOR NICE EASY CASE; Load 7 into R1
@@ -193,7 +241,7 @@ li 0000100 # STILL NEED TO HANDLE SIGN BIT; load 4 into R1
 lw 1 0 # Move mem4 into R0
 li 0000111 # Load 7 into R1
 srl 0 1 # Shift so only sign bit remains
-beq 0100100# 36; (positive, so done) 
+beq 0110100 # 52; (positive, so done) 
 {
     li 0000110 # Not positive, so have to flip the bits and add 1; Load 6 into R1
     lw 1 0 # Load mem6 into R1 (LSW)
@@ -211,7 +259,7 @@ beq 0100100# 36; (positive, so done)
     li 0000111 # Load 7 into R1
     srl 0 1 # Shift complemented LSW + 1 by 7
     neq 1 2 # Check if sign bits are equal; if not should handle (r1 will be 1)
-    beq 0001011 # 11; (no overflow); No need to handle overflow 
+    beq 0010011 # 19; (no overflow); No need to handle overflow 
     {
         li 0000111 # Handle overflow; Load 7 into R1
         lw 1 0 # Load mem7 into R1 (MSW)
@@ -223,6 +271,14 @@ beq 0100100# 36; (positive, so done)
         move 1 3 # R3 is complemented plus 1 (overflow handled)
         li 0000111 # Load 7 into R1
         sw 1 3 # Finalized MSW is placed into mem7
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
+        li 0000000 # NOP
         done
     }
     li 0000111 # No overflow branches here; Load 7 into R1
@@ -232,6 +288,22 @@ beq 0100100# 36; (positive, so done)
     move 1 3 # Complemented MSW is in R3
     li 0000111 # Load 7 into R1
     sw 1 3 # Finalized MSW is placed into mem7
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
+    li 0000000 # NOP
     done
 }
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
 done # BRANCH HERE FOR POSITIVE CASE

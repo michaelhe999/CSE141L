@@ -21,4 +21,9 @@ module alu (
         zero = (alu_out == 8'b0); // set zero flag if result is zero
     end
 
+    always @(alu_input_a, alu_input_b, alu_opcode) begin
+        $display("[%0t] ALU Inputs: a=%h, b=%h, opcode=%b", 
+                $time, alu_input_a, alu_input_b, alu_opcode);
+    end
+
 endmodule

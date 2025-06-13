@@ -45,7 +45,7 @@ module program_3_tb();
     .clk     (clk  ),		      // retain my dummy, above
     .start   (req  ),
 	.reset   (reset),			  // rename ports and module fltflt
-	.done    (ack));			  //  to those in your design
+	.ack    (ack));			  //  to those in your design
 
   initial begin
 // emergency stop -- increase value if you need > 2K clocks/test

@@ -22,6 +22,7 @@ module register_file (
             registers <= '{default: 8'b0};  // SystemVerilog array init
         end else if (write_en) begin
             registers[write_reg] <= write_value;
+            $display("WRITE: registers[%0d] <= %h at time %t", write_reg, write_value, $time);
         end
     end
 

@@ -56,6 +56,11 @@ module top_level (
 
     always_ff @(posedge clk) begin
     if (reset)
+        ack <= '0;   
+    end
+
+    always_ff @(posedge clk) begin
+    if (reset)
         ever_start <= '0;
     else if (start)
         ever_start <= '1;

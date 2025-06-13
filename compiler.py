@@ -15,7 +15,8 @@ def r_type(opcode, ra, rb, move=False):
         "slt": 0b011,
         "sll": 0b100,
         "srl": 0b101, 
-        "neq": 0b110
+        "neq": 0b110, 
+        "over": 0b111
     }
     if opcode not in opcode_dict:
         raise ValueError(f"Invalid opcode: {opcode}")

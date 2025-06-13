@@ -4,7 +4,7 @@
 // adapt as needed for instance and type names of your modules and 
 //  for any initialization you require (can also be done inside your 
 //  design itself)
-module fltflt_tb();             
+module program_3_tb();             
   bit         clk       ,  		 // same as type logic, but self-inits to 0
               reset = '1,		 // reset = 0 is run
               req;				 // next test case
@@ -45,7 +45,7 @@ module fltflt_tb();
     .clk     (clk  ),		      // retain my dummy, above
     .start   (req  ),
 	.reset   (reset),			  // rename ports and module fltflt
-	.done    (done));			  //  to those in your design
+	.done    (ack));			  //  to those in your design
 
   initial begin
 // emergency stop -- increase value if you need > 2K clocks/test
@@ -128,10 +128,10 @@ module fltflt_tb();
 	t1_test.data_mem1.mem_core[8] = flt1[ 7:0];      // LSW of incoming flt
     t1_test.data_mem1.mem_core[11] = flt2[15:8];      // MSW of incoming flt
 	t1_test.data_mem1.mem_core[10] = flt2[ 7:0];      // LSW of incoming flt
-    t1.data_mem1.mem_core[9] = flt1[15:8];           // MSW of incoming flt
-	t1.data_mem1.mem_core[8] = flt1[ 7:0];           // LSW of incoming flt
-    t1.data_mem1.mem_core[11] = flt2[15:8];           // MSW of incoming flt
-	t1.data_mem1.mem_core[10] = flt2[ 7:0];           // LSW of incoming flt
+    t1.dm.mem_core[9] = flt1[15:8];           // MSW of incoming flt
+	t1.dm.mem_core[8] = flt1[ 7:0];           // LSW of incoming flt
+    t1.dm.mem_core[11] = flt2[15:8];           // MSW of incoming flt
+	t1.dm.mem_core[10] = flt2[ 7:0];           // LSW of incoming flt
 	#10ns req = 1;
 	#10ns req = 0;
 	wait(done);                                         // wait for your done flag
@@ -139,8 +139,8 @@ module fltflt_tb();
 // read results from test DUT and your DUT
 	flt3_test[15:8] = t1_test.data_mem1.mem_core[13];	// my result upper bits
 	flt3_test[ 7:0] = t1_test.data_mem1.mem_core[12]; 
-	flt3[15:8]      = t1.data_mem1.mem_core[13];		// your result upper bits
-	flt3[ 7:0]      = t1.data_mem1.mem_core[12];
+	flt3[15:8]      = t1.dm.mem_core[13];		// your result upper bits
+	flt3[ 7:0]      = t1.dm.mem_core[12];
     flt3_exp        = flt3[14:10]-15;			        // your debiased exponent
 	flt3_mant       = {|flt3[14:10],flt3[9:0]};		    // your mantissa w/ hidden bit
     flt3_test_exp   = flt3_test[14:10]-15;

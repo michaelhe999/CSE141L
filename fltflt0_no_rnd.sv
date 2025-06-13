@@ -21,14 +21,13 @@ module TopLevel0(
               sign2,
               sign3;	               // sign of sum (or difference)
 
- logic     [8-1:0]  DataAddress;	   // in your model you would connect these	
- logic              ReadMem;		   //  to other blocks/modules	
- logic              WriteMem;	   		
- logic       [7:0]  DataIn;			
- logic       [7:0]  DataOut;
+ bit     [7:0]  data_a;		    // pointer
+  bit            mem_read = 1'b1;		// can leave enabled	
+  bit            mem_write;				// write enable
+  bit     [7:0]  data_b;				// data input port 
+  wire    [7:0]  data_out;				// data output port
+  data_memory       data_mem1(.*);	  		// dummy data_memory for compatibility
  int          pgm;			
-
-  data_mem data_mem1(.*);
 
   always @(posedge clk) begin	 :main
     if(reset) pgm++;

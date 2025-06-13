@@ -4,7 +4,7 @@ li 0000001 # Load 1 into R1
 sll 2 1 # Shift MSW by 1 to remove the sign bit
 move 1 2 # Move MSW into R2
 li 0000011 # Load 3 into R1
-srl 2 3 # Shift MSW right 3
+srl 2 1 # Shift MSW right 3
 move 1 2 # R2 holds the exp field
 li 1110001 # Load -15 into R1
 add 1 2 # exp - 15

@@ -29,6 +29,7 @@ module top_level (
     logic [7:0] data_b; // Data value in register B
     logic [7:0] data_r1; // Data value in register 1
 
+    logic [2:0] alu_opcode_temp; // Temporary ALU operation code
     logic [2:0] alu_opcode; // ALU operation code
 
     logic [7:0] data_a_1; // Temporary data_a value for ALU operation
@@ -136,8 +137,15 @@ module top_level (
         .data_r1(data_r1) // Data value in register 1
     );
 
+    mux #(.WIDTH(3)) imm_alu_opcode_mux (
+        .input_0(opcode), // Default ALU operation
+        .input_1(3'b001), // ADD FOR IMM
+        .select(use_immediate), // Select ALU operation based on branch enable
+        .output_1(alu_opcode_temp) // ALU operation code
+    );
+
     mux #(.WIDTH(3)) alu_opcode_mux (
-        .input_0(opcode), // Given opcode
+        .input_0(alu_opcode_temp), // Given opcode
         .input_1(3'b110), // ALU operation for branching
         .select(branch_en), // Select ALU operation based on branch enable
         .output_1(alu_opcode) // ALU operation code

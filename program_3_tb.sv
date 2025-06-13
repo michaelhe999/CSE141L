@@ -64,7 +64,7 @@ module program_3_tb();
 
   always @(posedge clk) begin
 		// Print every instruction :)
-        if (!f3.ack) begin
+        if (!t1.ack) begin
 		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
 				t1.cycle_count, t1.pc.current_pc_out, t1.cd.instruction, t1.cd.done, t1.should_run_processor, t1.ack);
         end

@@ -22,7 +22,7 @@ module program_2_tb();
     .reset (reset),
     .start (req  ),
     .done  (ack0));				 
-  TopLevel f3(.clk(clk),			 // your DUT goes here
+  top_level f3(.clk(clk),			 // your DUT goes here
     .reset (reset),
     .start (req  ),
     .ack  (ack) );				 

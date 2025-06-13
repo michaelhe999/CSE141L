@@ -21,6 +21,7 @@ module control_decoder (
         use_immediate = 0; // default value: will we use immediate value (custom to our ISA); basically if we load an immediate into r1
         done = 0; // default value: will we be done with the instruction
         write_reg_en = 0; // default value: will we write to r1
+        special_en = 0; // default value: will we execute a special instruction
 
         // Handle special instructions
         if (instruction == 9'b010000000) begin

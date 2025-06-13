@@ -1,0 +1,80 @@
+li 1111111 # Load all 1s into R1
+move 1 0 # Move all 1s to R0
+li 0000001 # Load 1 into R1
+srl 0 1 # R1 is now 01111111
+move 1 0 # Move 01111111 to R0
+li 1111111 # Load all 1s into R1
+xor 0 1 # R1 is now 10000000
+move 1 0 # Move to R0
+li 0001001 # Load 9 into R1
+lw 1 1 # Load mem9 into R1 
+and 0 1 # Get sign bit only 
+move 1 2 # Move sign bit into R2
+li 0010100 # Memory location 20 will hold Sign1
+sw 1 2 # Move Sign1 into mem20
+li 0001011 # Load 11 into R1
+lw 1 1 # Load mem11 into R1 
+and 0 1 # Get sign bit only 
+move 1 2 # Move sign bit into R2
+li 0010101 # Memory location 21 will hold Sign2
+sw 1 2 # Move Sign2 into mem20
+li 1111000 # Load exp mask into R1
+move 1 0 # Move exp mask to R0
+li 0000001 # Load 1 into R1
+srl 0 1 # R1 is now 01111100
+move 1 0 # Move 01111100 to R0
+li 0001001 # Load 9 into R1
+lw 1 1 # Load mem9 into R1 
+and 0 1 # Get exp bits only 
+move 1 2 # Move exp bits into R2
+li 0010110 # Memory location 22 will hold Exp1
+sw 1 2 # Move Exp1 into mem22
+li 0001011 # Load 11 into R1
+lw 1 1 # Load mem11 into R1 
+and 0 1 # Get exp bits only 
+move 1 2 # Move exp bits into R2
+li 0010111 # Memory location 23 will hold Exp2
+sw 1 2 # Move Exp2 into mem23
+li 0000100 # This is the implicit leading 1
+move 1 3 # Move implicit 1 to R3
+li 0000011 # This is the mask for the first two (non-implicit) mantissa bits
+move 1 0 # Mask in R0
+li 0001001 # Load 9 into R1
+lw 1 1 # load mem9 into R1
+and 0 1 # Get first two (non-implicit) mantissa bits only
+xor 1 3 # This is the first 3 mantissa bits
+move 1 2 # Move first 3 mantissa bits to R2
+li 0011000 # Memory location 24 will hold Mantissa1 [10:8]
+sw 1 2 # Move Mantissa1 [10:8] into mem24
+li 0001011 # Load 11 into R1
+lw 1 1 # load mem11 into R1
+and 0 1 # Get first two (non-implicit) mantissa bits only
+xor 1 3 # This is the first 3 mantissa bits
+move 1 2 # Move first 3 mantissa bits to R2
+li 0011010 # Memory location 26 will hold Mantissa2 [10:8]
+sw 1 2 # Move Mantissa2 [10:8] into mem26
+li 0001000 # Load 8 into R1
+lw 1 2 # Load mem8 into R2
+li 0011001 # Memory location 25 will hold Mantissa1 [7:0] (for consistencies sake)
+sw 1 2 # Move Mantissa1 [7:0] into mem25
+li 0001010 # Load 10 into R1
+lw 1 2 # Load mem10 into R2
+li 0011011 # Memory location 27 will hold Mantissa2 [7:0] (for consistencies sake)
+sw 1 2 # Move Mantissa2 [7:0] into mem27
+li 0010110 # Getting Exp1 (mem22)
+lw 1 2 # Load Exp1 to R2
+li 0100000 # Memory location 32 will hold Exp3 (extra space for calculations)
+sw 1 2 # Exp3 = Exp1
+li 0010100 # Getting Sign1 (mem20)
+lw 1 2 # Load Sign1 to R2
+li 0100001 # Memory location 33 will hold Sign3 (extra space for calculations)
+sw 1 2 # Sign3 = Sign1
+li 0010110 # want to compare exp1 and exp2 so we load them into R2 and R3; Getting Exp1 (mem22)
+lw 1 2 # Load Exp1 in R2
+li 0010111 # Getting Exp2 (mem23)
+lw 1 3 # Load Exp2 in R3
+slt 2 3 # If Exp1 is less than Exp2, then we want to branch: R1 will be 0, so beq will be True
+beq (Handle Exp1 <= Exp2)
+# This means Exp1 > Exp2
+# BRANCH DESTINATION for Handle Exp1 <= Exp2
+# if (exp1 > exp2)

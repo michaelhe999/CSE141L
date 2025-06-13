@@ -103,7 +103,9 @@ module top_level (
         .special_en(special_en) // Output special instruction enable signal
     );
     always_ff @(posedge clk ) begin
-        assign ack = (should_run_processor & done) || overflow;
+        if ((should_run_processor & done) || overflow) begin
+            assign ack = 1; // Hold ack at 1
+        end
     end
 
     instruction_parser ip (

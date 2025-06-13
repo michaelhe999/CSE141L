@@ -40,13 +40,16 @@ module program_1_tb();
   end
 
   always @(posedge clk) begin
-		if (f1.current_pc_out%20 == 0) begin
-			$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
+		// Print every instruction :)
+		$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
 				$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
-		end
-		if (cd.instruction == 9'b010000000) begin //done
-			$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
-		end
+		// if (f1.pc.current_pc_out%20 == 0) begin
+		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
+		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
+		// end
+		// if (cd.instruction == 9'b010000000) begin //done
+		// 	$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
+		// end
   end
 
   initial begin				 // test sequence

@@ -8,7 +8,7 @@ module program_counter (
     output logic [31:0] current_pc_out
 );
     always_ff @(posedge clk or posedge reset) begin
-        if (reset or !should_run_processor) begin
+        if (reset || !should_run_processor) begin
             current_pc_out <= 32'd0;
         end else begin
             // Calculate next PC value internally

@@ -157,11 +157,11 @@ module program_3_tb();
 	//$display("flt2r = %18.10f",flt2_real);
     if(flt1_sign == flt2_sign) begin
       flt3_real = flt1_real + flt2_real;
-      $display("flt3b_real = %b  %b  %b",flt3_real[15],flt3_real[14:10],flt3_real[9:0]);
+      $display("flt3b_real = %b",flt3_real);
     end
     else begin
       flt3_real = flt1_real - flt2_real; 
-      $display("flt3b_real = %b  %b  %b",flt3_real[15],flt3_real[14:10],flt3_real[9:0]);  
+      $display("flt3b_real = %b",flt3_real);  
     end
     
 // output from first DUT 

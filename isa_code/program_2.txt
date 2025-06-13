@@ -1,0 +1,237 @@
+li 0000101 # Load 5 into R1
+lw 1 2 # Load the MSW into R2
+li 0000001 # Load 1 into R1
+sll 2 1 # Shift MSW by 1 to remove the sign bit
+move 1 2 # Move MSW into R2
+li 0000011 # Load 3 into R1
+srl 2 3 # Shift MSW right 3
+move 1 2 # R2 holds the exp field
+li 1110001 # Load -15 into R1
+add 1 2 # exp - 15
+move 1 2 # True exponent is in R2
+li 0000101 # Load 5 into R1
+lw 1 3 # Load the MSW into R3
+li 0000110 # Load 6 into R1
+sll 3 1 # Shift MSW left 6
+move 1 3 # Move into R3
+li 0000110 # Load 6 into R1
+srl 3 1 # Shift MSW right 6
+move 1 3 # R3 now holds the first two bits of mantissa
+li 0000100 # Load the implicit 1 into R1
+xor 1 3 # apply the implicit 1
+move 1 3 # Move first 3 bits of mantissa with implied 1 to R3
+li 0000010 # Load 2 into R1
+slt 2 1 # If exp is more than or equal to 2, R1 = 1; otherwise R1 = 0
+beq 0011111 # 31; (NOT A SHIFT RIGHT CASE) 
+{
+    li 1111110 # This means that exp is greater than 2, which means we left shift; Load -2 into R1
+    add 1 2 # Subtract 2 from exp
+    sll 3 1 # Shift the mantissa with implicit 1 over to the correct spot
+    move 1 3 # Move this value into R3
+    li 0000100 # Load 4 into R1
+    lw 1 0 # Load mem4 into R0
+    li 1111110 # Load -2 into R1
+    add 1 2 # Subtract 2 from exp
+    sll 0 1 # Shift LSW left by correct amount 
+    move 1 0 # Move temp output LSW to R0
+    li 0000110 # Load 6 into R1
+    sw 1 0 # Store temp LSW to mem6
+    li 1111110 # Load -2 into R1
+    add 1 2 # Subtract 2 from exp
+    move 1 2 # Store this in 2 temporarily
+    li 1111111 # Store mask into R1
+    xor 1 2 # Flip this value
+    move 1 2 # Move into 2
+    add 1 2 # Negative version
+    move 1 2 # Moved into R2
+    li 0001000 # Load 8 into R1
+    add 1 2 # This is the amount to shift LSW right by to XOR with the rest
+    move 1 2 # Moved into R2
+    li 0000100 # Load 4 into R1
+    lw 1 1 # Load mem4 into R1
+    srl 1 2 # Get the bits from the LSW that belong in MSW
+    xor 1 3 # This is temp MSW
+    move 1 3 # Move temp MSW to R3
+    li 0000111 # Load 7 into R1
+    sw 1 3 # temp MSW stored
+    li 0000100 # STILL NEED TO HANDLE SIGN BIT; load 4 into R1
+    lw 1 0 # Move mem4 into R0
+    li 0000111 # Load 7 into R1
+    srl 0 1 # Shift so only sign bit remains
+    beq 0100100# 36; (positive, so done) 
+    {
+        li 0000110 # Not positive, so have to flip the bits and add 1; Load 6 into R1
+        lw 1 0 # Load mem6 into R1 (LSW)
+        li 1111111 # Load mask into R1
+        xor 0 1 # Complement the bits
+        move 1 3 # Complemented LSW is in R3
+        li 0000001 # Load 1 into R1
+        add 1 3 # R1 is complemented plus 1
+        move 1 0 # R0 holds complemented plus 1
+        li 0000110 # Load 6 into R1
+        sw 1 0 # LSW is correct as of here
+        li 0000111 # Load 7 into R1
+        srl 3 1 # Shift complemented LSW by 7
+        move 1 2 # store sign bit of that into R2
+        li 0000111 # Load 7 into R1
+        srl 0 1 # Shift complemented LSW + 1 by 7
+        neq 1 2 # Check if sign bits are equal; if not should handle (r1 will be 1)
+        beq 0001011 # 11; (no overflow); No need to handle overflow 
+        {
+            li 0000111 # Handle overflow; Load 7 into R1
+            lw 1 0 # Load mem7 into R1 (MSW)
+            li 1111111 # Load mask into R1
+            xor 0 1 # Complement the bits
+            move 1 3 # Complemented MSW is in R3
+            li 0000001 # Load 1 into R1
+            add 1 3 # R1 is complemented plus 1
+            move 1 3 # R3 is complemented plus 1 (overflow handled)
+            li 0000111 # Load 7 into R1
+            sw 1 3 # Finalized MSW is placed into mem7
+            done
+        }
+        li 0000111 # No overflow branches here; Load 7 into R1
+        lw 1 0 # Load mem7 into R1 (MSW)
+        li 1111111 # Load mask into R1
+        xor 0 1 # Complement the bits
+        move 1 3 # Complemented MSW is in R3
+        li 0000111 # Load 7 into R1
+        sw 1 3 # Finalized MSW is placed into mem7
+        done
+    }
+    done # BRANCH HERE FOR POSITIVE CASE
+}
+li 0000010 # BRANCH HERE for not shift right case; Check for equals 2; Load 2 into R1
+neq 1 2 # If exp != 2, then R1 will be 1. If exp == 2, then R1 will be 0
+beq 0111101 # 61; (handle the nice easy case :)
+{
+    li 1111110 # This means we have to handle right shifting; Load -2 into R1
+    add 1 2 # exp - 2
+    move 1 0 # move exp - 2 into R0
+    li 1111111 # Load mask into R1
+    xor 0 1 # Complement exp - 2
+    move 1 0 # Move into R0
+    li 0000001 # Load 1 into R1
+    add 0 1 # Now this is -(exp - 2)
+    move 1 0 # -(exp - 2)
+    srl 3 0 # Shift R3 right by -(exp - 2)
+    move 1 2 # Move this into R2
+    li 0000111 # Load 7 into R1
+    sw 1 2 # Load temp MSW
+    li 0000110 # Load 6 into R1
+    lw 1 2 # Load LSW into R2
+    srl 2 0 # Shift LSW right by -(exp - 2)
+    move 1 2 # Move into R2
+    li 1111111 # Load mask into R1
+    xor 0 1 # Complemented -(exp - 2)
+    move 1 0 # Move into R0
+    li 0000001 # Load 1 into R1
+    add 0 1 # -(-(exp - 2)) 
+    move 1 0 # R0 is -(-(exp - 2)) 
+    li 0001000 # Load 8 into R1
+    add 0 1 # 8 - (-(exp - 2))
+    sll 3 1 # Shift MSW part of LSW left
+    xor 1 2 # Combine both parts of LSW mantissa
+    move 1 2 # Moved into R2
+    li 0000110 # Load 6 into R1
+    sw 1 2 # Temp LSW value is stored !
+    li 0000100 # STILL NEED TO HANDLE SIGN BIT; load 4 into R1
+    lw 1 0 # Move mem4 into R0
+    li 0000111 # Load 7 into R1
+    srl 0 1 # Shift so only sign bit remains
+    beq 0100101 # 37; (positive, so done) 
+    {
+        li 0000110 # Not positive, so have to flip the bits and add 1; Load 6 into R1
+        lw 1 0 # Load mem6 into R1 (LSW)
+        li 1111111 # Load mask into R1
+        xor 0 1 # Complement the bits
+        move 1 3 # Complemented LSW is in R3
+        li 0000001 # Load 1 into R1
+        add 1 3 # R1 is complemented plus 1
+        move 1 0 # R0 holds complemented plus 1
+        li 0000110 # Load 6 into R1
+        sw 1 0 # LSW is correct as of here
+        li 0000111 # Load 7 into R1
+        srl 3 1 # Shift complemented LSW by 7
+        move 1 2 # store sign bit of that into R2
+        li 0000111 # Load 7 into R1
+        srl 0 1 # Shift complemented LSW + 1 by 7
+        neq 1 2 # Check if sign bits are equal; if not should handle (r1 will be 1)
+        beq 0001100 # 12; (no overflow); No need to handle overflow 
+        {
+            li 0000111 # Handle overflow; Load 7 into R1
+            lw 1 0 # Load mem7 into R1 (MSW)
+            li 1111111 # Load mask into R1
+            xor 0 1 # Complement the bits
+            move 1 3 # Complemented MSW is in R3
+            li 0000001 # Load 1 into R1
+            add 1 3 # R1 is complemented plus 1
+            move 1 3 # R3 is complemented plus 1 (overflow handled)
+            li 0000111 # Load 7 into R1
+            branch 0001011 # 11; (chain to easy case)
+            sw 1 3 # Finalized MSW is placed into mem7
+            done
+        }
+        li 0000111 # No overflow branches here; Load 7 into R1
+        lw 1 0 # Load mem7 into R1 (MSW)
+        li 1111111 # Load mask into R1
+        xor 0 1 # Complement the bits
+        move 1 3 # Complemented MSW is in R3
+        li 0000111 # Load 7 into R1
+        sw 1 3 # Finalized MSW is placed into mem7
+        done
+    }
+    done # BRANCH HERE FOR POSITIVE CASE
+}
+li 0000111 # BRANCH HERE FOR NICE EASY CASE; Load 7 into R1
+sw 1 3 # Store temporary MSW
+li 0000100 # Load 4 into R1
+lw 1 0 # Load LSW into R0
+li 0000110 # Load 6 into R1
+sw 1 0 # Store temp LSW
+li 0000100 # STILL NEED TO HANDLE SIGN BIT; load 4 into R1
+lw 1 0 # Move mem4 into R0
+li 0000111 # Load 7 into R1
+srl 0 1 # Shift so only sign bit remains
+beq 0100100# 36; (positive, so done) 
+{
+    li 0000110 # Not positive, so have to flip the bits and add 1; Load 6 into R1
+    lw 1 0 # Load mem6 into R1 (LSW)
+    li 1111111 # Load mask into R1
+    xor 0 1 # Complement the bits
+    move 1 3 # Complemented LSW is in R3
+    li 0000001 # Load 1 into R1
+    add 1 3 # R1 is complemented plus 1
+    move 1 0 # R0 holds complemented plus 1
+    li 0000110 # Load 6 into R1
+    sw 1 0 # LSW is correct as of here
+    li 0000111 # Load 7 into R1
+    srl 3 1 # Shift complemented LSW by 7
+    move 1 2 # store sign bit of that into R2
+    li 0000111 # Load 7 into R1
+    srl 0 1 # Shift complemented LSW + 1 by 7
+    neq 1 2 # Check if sign bits are equal; if not should handle (r1 will be 1)
+    beq 0001011 # 11; (no overflow); No need to handle overflow 
+    {
+        li 0000111 # Handle overflow; Load 7 into R1
+        lw 1 0 # Load mem7 into R1 (MSW)
+        li 1111111 # Load mask into R1
+        xor 0 1 # Complement the bits
+        move 1 3 # Complemented MSW is in R3
+        li 0000001 # Load 1 into R1
+        add 1 3 # R1 is complemented plus 1
+        move 1 3 # R3 is complemented plus 1 (overflow handled)
+        li 0000111 # Load 7 into R1
+        sw 1 3 # Finalized MSW is placed into mem7
+        done
+    }
+    li 0000111 # No overflow branches here; Load 7 into R1
+    lw 1 0 # Load mem7 into R1 (MSW)
+    li 1111111 # Load mask into R1
+    xor 0 1 # Complement the bits
+    move 1 3 # Complemented MSW is in R3
+    li 0000111 # Load 7 into R1
+    sw 1 3 # Finalized MSW is placed into mem7
+    done
+}
+done # BRANCH HERE FOR POSITIVE CASE

@@ -9,7 +9,58 @@ move 1 2 # R2 holds the exp field
 li 1110001 # Load -15 into R1
 add 1 2 # exp - 15
 move 1 2 # True exponent is in R2
-li 0000101 # Load 5 into R1
+li 0001000 # HANDLE MAX CASES; load 8 into R1
+slt 2 1 # If exp is less than 8, R1 is 1; if not R1 is 0
+beq 0110000 # 48; (not a max case)
+li 0000101 # Load 5 into R1; CHECK SIGN BIT FOR MAX CASE
+lw 1 0 # Move mem5 into R0
+li 0000111 # Load 7 into R1
+srl 0 1 # Shift so only sign bit remains
+beq 0010111 # 23; (positive case) 
+li 1111111 # Load all 1s into R1
+move 1 0 # Move all 1s to R0
+li 0000001 # Load 1 into R1
+srl 0 1 # R1 is now 01111111
+move 1 0 # Move 01111111 to R0
+li 1111111 # Load all 1s into R1
+xor 0 1 # R1 is now 10000000
+move 1 0 # Move to R0
+li 0000111 # Load 7 into R1
+sw 1 0 # Load 10000000 into MSW
+li 0000000 # Load 0 into R1
+move 1 0 # Move 0 into R0
+li 0000110 # Load 6 into R1
+sw 1 0 # Load 00000000 into LSW
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+done
+li 1111111 # Positive destination branch; Load all 1s into R1
+move 1 0 # Move all 1s to R0
+li 0000001 # Load 1 into R1
+srl 0 1 # R1 is now 01111111
+move 1 0 # Move 01111111 to R0
+li 0000111 # Load 7 into R1
+sw 1 0 # Store 01111111 into MSW
+li 1111111 # Load all 1s into R1
+move 1 0 # Move all 1s to R0
+li 0000110 # Load 6 into R1
+sw 1 0 # Store all 1s into LSW
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+done
+li 0000101 # Load 5 into R1; BRANCH DESTINATION FOR NOT A MAX CASE
 lw 1 3 # Load the MSW into R3
 li 0000110 # Load 6 into R1
 sll 3 1 # Shift MSW left 6
@@ -54,8 +105,8 @@ beq 0110111 # 55; (NOT A SHIFT RIGHT CASE)
     move 1 3 # Move temp MSW to R3
     li 0000111 # Load 7 into R1
     sw 1 3 # temp MSW stored
-    li 0000100 # STILL NEED TO HANDLE SIGN BIT; load 4 into R1
-    lw 1 0 # Move mem4 into R0
+    li 0000101 # STILL NEED TO HANDLE SIGN BIT; load 5 into R1
+    lw 1 0 # Move mem5 into R0
     li 0000111 # Load 7 into R1
     srl 0 1 # Shift so only sign bit remains
     beq 0110100 # 52; (positive, so done) 
@@ -159,8 +210,8 @@ beq 0111101 # 61; (handle the nice easy case :)
     move 1 2 # Moved into R2
     li 0000110 # Load 6 into R1
     sw 1 2 # Temp LSW value is stored !
-    li 0000100 # STILL NEED TO HANDLE SIGN BIT; load 4 into R1
-    lw 1 0 # Move mem4 into R0
+    li 0000101 # STILL NEED TO HANDLE SIGN BIT; load 5 into R1
+    lw 1 0 # Move mem5 into R0
     li 0000111 # Load 7 into R1
     srl 0 1 # Shift so only sign bit remains
     beq 0110100 # 52; (positive, so done) 
@@ -237,8 +288,8 @@ li 0000100 # Load 4 into R1
 lw 1 0 # Load LSW into R0
 li 0000110 # Load 6 into R1
 sw 1 0 # Store temp LSW
-li 0000100 # STILL NEED TO HANDLE SIGN BIT; load 4 into R1
-lw 1 0 # Move mem4 into R0
+li 0000101 # STILL NEED TO HANDLE SIGN BIT; load 5 into R1
+lw 1 0 # Move mem5 into R0
 li 0000111 # Load 7 into R1
 srl 0 1 # Shift so only sign bit remains
 beq 0110100 # 52; (positive, so done) 

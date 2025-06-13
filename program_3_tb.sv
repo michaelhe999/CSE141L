@@ -8,8 +8,8 @@ module program_3_tb();
   bit         clk       ,  		 // same as type logic, but self-inits to 0
               reset = '1,		 // reset = 0 is run
               req;				 // next test case
-  wire        done_test,		 //	done flag from my dummy
-              done;				 // done flag from your DUT
+  wire        done,		 //	done flag from my dummy
+              ack;				 // done flag from your DUT
   logic[15:0] flt1,
               flt2;              // incoming floating operand
   logic[15:0] flt3_test,		 // sum/difference out
@@ -134,8 +134,8 @@ module program_3_tb();
 	t1.dm.mem_core[10] = flt2[ 7:0];           // LSW of incoming flt
 	#10ns req = 1;
 	#10ns req = 0;
-	wait(done);                                         // wait for your done flag
-    wait(done_test);
+	wait(ack);                                         // wait for your done flag
+    wait(done);
 // read results from test DUT and your DUT
 	flt3_test[15:8] = t1_test.data_mem1.mem_core[13];	// my result upper bits
 	flt3_test[ 7:0] = t1_test.data_mem1.mem_core[12]; 

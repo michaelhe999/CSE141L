@@ -39,18 +39,18 @@ module program_1_tb();
 	#5ns clk = '0;
   end
 
-  always @(posedge clk) begin
-		// Print every instruction :)
-		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
-				f1.cycle_count, f1.pc.current_pc_out, f1.cd.instruction, f1.cd.done, f1.should_run_processor, f1.ack);
-		// if (f1.pc.current_pc_out%20 == 0) begin
-		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
-		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
-		// end
-		// if (cd.instruction == 9'b010000000) begin //done
-		// 	$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
-		// end
-  end
+//   always @(posedge clk) begin
+// 		// Print every instruction :)
+// 		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
+// 				f1.cycle_count, f1.pc.current_pc_out, f1.cd.instruction, f1.cd.done, f1.should_run_processor, f1.ack);
+// 		// if (f1.pc.current_pc_out%20 == 0) begin
+// 		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
+// 		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
+// 		// end
+// 		// if (cd.instruction == 9'b010000000) begin //done
+// 		// 	$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
+// 		// end
+//   end
 
   initial begin				 // test sequence
     $monitor("data_mem.core0 mem3, 1 = %b  %b %t",f0.data_mem1.mem_core[3],f1.dm.mem_core[3],$time);
@@ -155,9 +155,9 @@ task automatic disp2(input logic [15:0] int_in);
 	#10ns;
 
 	// ✅ DEBUG PRINTS HERE
-	$display("[DEBUG] PC: %0d", f1.pc.current_pc_out);
-	$display("[DEBUG] instruction: %b", f1.im.instruction); 
-	$display("[DEBUG] done: %b", f1.cd.done);
+	// $display("[DEBUG] PC: %0d", f1.pc.current_pc_out);
+	// $display("[DEBUG] instruction: %b", f1.im.instruction); 
+	// $display("[DEBUG] done: %b", f1.cd.done);
 
   	flt_out  = {f1.dm.mem_core[3],f1.dm.mem_core[2]};	 // results from your memory
     flt_out0 = {f0.data_mem1.mem_core[3],f0.data_mem1.mem_core[2]};	 // results from my dummy DUT

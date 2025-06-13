@@ -70,6 +70,7 @@ module top_level (
     program_counter pc (
         .clk(clk),
         .reset(reset),
+        .should_run_processor(should_run_processor),
         .branch_en(branch_en),
         .zero(zero),
         .immediate(immediate),

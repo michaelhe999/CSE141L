@@ -12,20 +12,23 @@ module register_file (
 );
 
     logic [7:0] registers [3:0]; // 4 registers, 8 bits each
-    assign data_a = registers[r_a]; // Read from register A
-    assign data_b = registers[r_b]; // Read from register B
-    assign data_r1 = registers[1]; // Read from register 1
+    // Async read paths (critical fix)
+    assign data_a = registers[r_a];
+    assign data_b = registers[r_b]; 
+    assign data_r1 = registers[1];
 
     always_ff @(posedge clk or posedge reset) begin
-        $display("data_a=%h, data_b=%h, r_a=%h, r_b=%h", data_a, data_b, r_a, r_b);
         if (reset) begin
-            registers[0] <= 8'b0;
-            registers[1] <= 8'b0;
-            registers[2] <= 8'b0;
-            registers[3] <= 8'b0;
+            registers <= '{default: 8'b0};  // SystemVerilog array init
         end else if (write_en) begin
             registers[write_reg] <= write_value;
         end
+    end
+
+    // Debug outside always_ff
+    always_comb begin
+        $display("Register Reads: r_a=%d (0x%h) r_b=%d (0x%h) @ %t", 
+                r_a, data_a, r_b, data_b, $time);
     end
 
 endmodule

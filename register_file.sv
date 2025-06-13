@@ -30,6 +30,8 @@ module register_file (
     always_comb begin
         $display("Register Reads: r_a=%d (0x%h) r_b=%d (0x%h) @ %t", 
                 r_a, data_a, r_b, data_b, $time);
+        $display("Register Writes: write_reg=%d (0x%h) @ %t", 
+                write_reg, write_value, $time);
     end
 
 endmodule

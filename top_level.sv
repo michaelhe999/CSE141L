@@ -104,10 +104,6 @@ module top_level (
     );
     always_ff @(posedge clk ) begin
         assign ack = (should_run_processor & done) || overflow;
-        if (ack) begin
-            should_run_processor = 0; // Reset the processor run signal when done or overflow
-            current_pc <= 0; // Reset the program counter
-        end
     end
 
     instruction_parser ip (

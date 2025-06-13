@@ -150,7 +150,7 @@ task automatic disp2(input logic [15:0] int_in);
     @(posedge clk); req = 1;
     @(posedge clk); req = 1; // Keep high for 2 cycles
     @(posedge clk); req = 0;
-	wait(ack);
+	@(posedge ack);
 	wait(ack0);
 	#10ns;
 

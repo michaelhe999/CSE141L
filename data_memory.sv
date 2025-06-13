@@ -11,6 +11,7 @@ module data_memory(
     logic [7:0] mem_core [256]; // 256 bytes of memory
 
     always_ff @(posedge clk)
+        $display("WRITE: mem[%0d] <= %h at time %t", data_a, data_b, $time);
         if(mem_write) mem_core[data_a] <= data_b;
 
     assign data_out = mem_core[data_a];

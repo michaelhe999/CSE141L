@@ -6,7 +6,6 @@ module top_level (
 );
 
     // Internal signals
-    logic [31:0] current_pc; // Program counter
     logic [31:0] current_pc_out; // Output from program counter
 
     logic [8:0] instruction; // Instruction from instruction memory
@@ -45,7 +44,6 @@ module top_level (
 
     logic [7:0] data_out; // Data read from memory
 
-    logic [31:0] next_pc; // Next PC value
     // Instantiate the modules
     logic[15:0] cycle_count;
 
@@ -72,11 +70,10 @@ module top_level (
     program_counter pc (
         .clk(clk),
         .reset(reset),
-        .current_pc(current_pc), 
-        .zero(zero),
         .branch_en(branch_en),
+        .zero(zero),
         .immediate(immediate),
-        .current_pc_out(current_pc_out)
+        .current_pc_out(current_pc_out)  // Direct output to instruction memory
     );
 
     instruction_memory im (
@@ -204,18 +201,6 @@ module top_level (
         .select(mem_read), // Select between ALU output and memory output
         .output_1(write_value) // Value to write to register file
     );
-
-    always_ff @(posedge clk or posedge reset) begin
-        if (reset)
-            current_pc <= 0;
-        else
-            if (branch_en && zero) begin
-                // If branch is enabled and zero flag is set, add immediate value to current PC
-                current_pc <=  current_pc_out + 1 + {{24{immediate[7]}}, immediate};
-            end else begin
-                current_pc <= current_pc_out + 1;
-            end
-    end
 
     always_ff @(posedge clk) begin
     if (reset) begin

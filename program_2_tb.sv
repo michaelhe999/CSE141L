@@ -1,6 +1,6 @@
 // test bench for float to fix 8.8		revised 2025.05.24
 // CSE141L	 version w/o rounding required
-//TODO: renorm everything to fix * 2**8   that way int_out can be type int again
+// : renorm everything to fix * 2**8   that way int_out can be type int again
 module flt2fix_tb_noround();
   bit   clk = '0, 
         reset='1,
@@ -25,7 +25,7 @@ module flt2fix_tb_noround();
   TopLevel f3(.clk(clk),			 // your DUT goes here
     .reset (reset),
     .start (req  ),
-    .done  (ack) );				 
+    .ack  (ack) );				 
   always begin
     #5ns clk = 1;
 	#5ns clk = 0;
@@ -117,7 +117,7 @@ module flt2fix_tb_noround();
 	reset = 0;
 
     {f2.data_mem1.mem_core[5],f2.data_mem1.mem_core[4]} = flt_in;	 // inject flt_in to dat_mem
-    {f3.data_mem1.mem_core[5],f3.data_mem1.mem_core[4]} = flt_in;	 //    same for your DUT
+    {f3.dm.mem_core[5],f3.dm.mem_core[4]} = flt_in;	 //    same for your DUT
     #10ns req = '1;
     #10ns req = '0;
     sign      = flt_in[15];
@@ -142,11 +142,11 @@ module flt2fix_tb_noround();
         $display("from MAT = %b = %d", math[15:0], math[15:0]);
     #20ns $display("from dum = %b = %d",{f2.data_mem1.mem_core[7],f2.data_mem1.mem_core[6]},
         {f2.data_mem1.mem_core[7],f2.data_mem1.mem_core[6]});
-    $display("from DUT = %b = %d",{f3.data_mem1.mem_core[7],f3.data_mem1.mem_core[6]},
-        {f3.data_mem1.mem_core[7],f3.data_mem1.mem_core[6]});
+    $display("from DUT = %b = %d",{f3.dm.mem_core[7],f3.dm.mem_core[6]},
+        {f3.dm.mem_core[7],f3.dm.mem_core[6]});
     count++;
-	if({f3.data_mem1.mem_core[7],f3.data_mem1.mem_core[6]} == {f2.data_mem1.mem_core[7],f2.data_mem1.mem_core[6]}) score0++;
-    if(math == {f3.data_mem1.mem_core[7],f3.data_mem1.mem_core[6]}) score1++;
+	if({f3.dm.mem_core[7],f3.dm.mem_core[6]} == {f2.data_mem1.mem_core[7],f2.data_mem1.mem_core[6]}) score0++;
+    if(math == {f3.dm.mem_core[7],f3.dm.mem_core[6]}) score1++;
 	$display("                ct = %d, score0 = %d, score1 =  %d",count,score0,score1);
   endtask
 endmodule

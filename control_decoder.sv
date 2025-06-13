@@ -99,5 +99,10 @@ module control_decoder (
             end
         end
     end
+    always_comb begin
+        $display("Control: use_immediate=%b, write_en=%b, mem_read=%b, mem_write=%b, write_reg_en=%b, 
+        special_en=%b, instruction=%b", use_immediate, write_en, mem_read, mem_write, write_reg_en, 
+        special_en, instruction);
+    end
 
 endmodule

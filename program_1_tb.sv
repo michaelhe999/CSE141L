@@ -41,8 +41,8 @@ module program_1_tb();
 
   always @(posedge clk) begin
 		// Print every instruction :)
-		$display("[Cycle %0t] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
-				$time, f1.pc.current_pc_out, f1.cd.instruction, f1.cd.done, f1.should_run_processor, f1.ack);
+		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
+				f1.cycle_count, f1.pc.current_pc_out, f1.cd.instruction, f1.cd.done, f1.should_run_processor, f1.ack);
 		// if (f1.pc.current_pc_out%20 == 0) begin
 		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
 		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);

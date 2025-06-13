@@ -102,7 +102,13 @@ module top_level (
         .write_reg_en(write_reg_en),
         .special_en(special_en) // Output special instruction enable signal
     );
-    assign ack = (should_run_processor & done) || overflow;
+    always ff @(posedge clk ) begin
+        assign ack = (should_run_processor & done) || overflow;
+        if (ack) begin
+            should_run_processor = 0; // Reset the processor run signal when done or overflow
+            current_pc <= 0; // Reset the program counter
+        end
+    end
 
     instruction_parser ip (
         .instruction(instruction),

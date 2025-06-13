@@ -1,7 +1,7 @@
 // test bench for float to fix 8.8		revised 2025.05.24
 // CSE141L	 version w/o rounding required
 // : renorm everything to fix * 2**8   that way int_out can be type int again
-module flt2fix_tb_noround();
+module program_2_tb();
   bit   clk = '0, 
         reset='1,
         req;

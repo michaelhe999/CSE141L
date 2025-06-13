@@ -42,7 +42,7 @@ module program_1_tb();
   always @(posedge clk) begin
 		// Print every instruction :)
 		$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
-				$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
+				$time, f1.pc.current_pc_out, f1.cd.instruction, f1.cd.done);
 		// if (f1.pc.current_pc_out%20 == 0) begin
 		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
 		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);

@@ -17,6 +17,7 @@ module register_file (
     assign data_r1 = registers[1]; // Read from register 1
 
     always_ff @(posedge clk or posedge reset) begin
+        $display("data_a=%h, data_b=%h, r_a=%h, r_b=%h", data_a, data_b, r_a, r_b);
         if (reset) begin
             registers[0] <= 8'b0;
             registers[1] <= 8'b0;

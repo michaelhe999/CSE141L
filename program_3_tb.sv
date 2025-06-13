@@ -39,9 +39,9 @@ module program_3_tb();
     .clk   (clk  ),
 	.start (req  ),
 	.reset (reset),
-	.done  (done_test));
+	.done  (done));
 
-  TopLevel t1     (                 // your DUT would go here
+  top_level t1     (                 // your DUT would go here
     .clk     (clk  ),		      // retain my dummy, above
     .start   (req  ),
 	.reset   (reset),			  // rename ports and module fltflt

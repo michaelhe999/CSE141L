@@ -19,8 +19,13 @@ logic[ 7:0] ctr;				 // cycle counter
 logic[ 7:0] dm_out, dm_in, dm_addr;
 
 // dummy "hookup" to real data mem. module
-data_mem data_mem1(.clk(clk), .WriteMem('0), .DataOut(dm_out), 
-  .DataIn(dm_in), .DataAddress(dm_addr), .ReadMem('1));
+// port connections to dummy data_mem
+  bit     [7:0]  data_a;		    // pointer
+  bit            mem_read = 1'b1;		// can leave enabled	
+  bit            mem_write;				// write enable
+  bit     [7:0]  data_b;				// data input port 
+  wire    [7:0]  data_out;				// data output port
+  data_memory       data_mem1(.*);	  		// dummy data_memory for compatibility
 
 always @(posedge clk) begin
   if(reset)	begin

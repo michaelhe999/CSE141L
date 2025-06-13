@@ -56,11 +56,6 @@ module top_level (
 
     always_ff @(posedge clk) begin
     if (reset)
-        ack <= '0;   
-    end
-
-    always_ff @(posedge clk) begin
-    if (reset)
         ever_start <= '0;
     else if (start)
         ever_start <= '1;
@@ -107,8 +102,10 @@ module top_level (
         .write_reg_en(write_reg_en),
         .special_en(special_en) // Output special instruction enable signal
     );
-    always_ff @(posedge clk ) begin
-        if ((should_run_processor & done) || overflow) begin
+    always_ff @(posedge clk or posedge reset) begin
+        if (reset) begin
+            assign ack = 0; // Reset ack to 0
+        end else if ((should_run_processor & done) || overflow) begin
             assign ack = 1; // Hold ack at 1
         end
     end

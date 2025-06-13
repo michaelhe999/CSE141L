@@ -208,7 +208,7 @@ module top_level (
         cycle_count <= 0;
         overflow <= 0;
     end
-    else if(cycle_count >= 4096)
+    else if(cycle_count >= 200)
         overflow = 1; 
     else if(ack == 0)   
         cycle_count <= cycle_count + 'b1;

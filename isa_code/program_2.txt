@@ -9,8 +9,8 @@ move 1 2 # R2 holds the exp field
 li 1110001 # Load -15 into R1
 add 1 2 # exp - 15
 move 1 2 # True exponent is in R2
-li 0001000 # HANDLE MAX CASES; load 8 into R1
-slt 2 1 # If exp is less than 8, R1 is 1; if not R1 is 0
+li 0000111 # HANDLE MAX CASES; load 8 into R1
+slt 1 2 # If 7 is less than exp, R1 is 1; if not R1 is 0
 beq 0110000 # 48; (not a max case)
 li 0000101 # Load 5 into R1; CHECK SIGN BIT FOR MAX CASE
 lw 1 0 # Move mem5 into R0

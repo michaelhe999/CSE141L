@@ -7,6 +7,12 @@ module instruction_parser(
 );
 
     always_comb begin
+        // Default assignments to prevent latches
+        opcode = instruction[6:4];
+        r_a = instruction[3:2];
+        r_b = instruction[1:0];
+        immediate = {instruction[6], instruction[6:0]};  // Default case
+
         if (instruction == 9'b000000100) begin // move r0 r1: AND R1 R0
             opcode = 3'b001; // ADD operation
             r_a = 2'b00; // Register A is R0

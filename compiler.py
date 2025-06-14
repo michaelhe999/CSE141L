@@ -141,7 +141,7 @@ def compile_file(filename):
             line = line.strip()
             try:
                 instruction = compile_line(line)
-                print(instruction)
+                # print(instruction)
                 f.write(instruction + "\n")
             except ValueError as e:
                 print(f"Error: {e} on line {line_num}: {line}")

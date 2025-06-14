@@ -221,14 +221,9 @@ srl 0 1 # R1 = Mantissa3[11]
 beq 0011101 # 29; If R1 == 0, then we don't need to handle edge case
 li 0100000 # This means we do need to handle edge case; get Exp3 (mem32)
 lw 1 0 # We don't handle the edge case where Exp3 is 11111 and 1 is added; Load Exp3 to R0
-li 0000010 # Load 2 to R1 to shift Exp3
-srl 0 1 # Exp3 >> 2
-move 1 0 # Move Exp3 >> 2 into R0
-li 0000001 # Load 1 to R1 to increment Exp3
-add 0 1 # R1 = Exp3+1
-move 1 0 # R0 = Exp3+1
-li 0000010 # Load 2 to R1 to shift Exp3
-sll 0 1 # Exp3 << 2
+li 0000100 # Load 4 to R1 to increment Exp3
+add 0 1 # R1 = Exp3+4
+move 1 0 # R0 = Exp3+4
 li 0100000 # Put Exp3 back into mem32
 sw 1 0 # Put Exp3 back into mem32
 li 0011100 # Get temp Mantissa3[7:0]

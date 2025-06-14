@@ -18,7 +18,7 @@ logic [7:0] test_overflow ; // temporary variable for overflow output
             3'b101: alu_out = alu_input_a >> alu_input_b; // shift right logical
             3'b110: alu_out = (alu_input_a != alu_input_b) ? 8'b00000001 : 8'b0; // compare not equal
             3'b111: begin
-                logic [7:0] test_overflow = alu_input_a + alu_input_b;
+                test_overflow = alu_input_a + alu_input_b;
                 logic overflow;
                 
                 // Correct overflow detection for signed addition

@@ -8,6 +8,7 @@ module alu (
 
 logic [7:0] test_overflow ; // temporary variable for overflow output
     always_comb begin
+        test_overflow = 8'b0; // initialize test_overflow to zero
         case (alu_opcode)
             3'b000: alu_out = alu_input_a & alu_input_b; // bitwise AND
             3'b001: alu_out = alu_input_a + alu_input_b; // ADD

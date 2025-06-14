@@ -113,9 +113,9 @@ module program_2_tb();
 //    disp;
 	flt_in = 16'b1_10010_1100000000;
 	disp;
-	flt_in = 16'b1_10010_1110000000;
-	disp;
-    // next 4 should be uncommented for actual testing
+    // next 5 should be uncommented for actual testing
+	// flt_in = 16'b1_10010_1110000000;
+	// disp;
 	// flt_in = 16'b1_11000_1100000000;
 	// disp;
 	// flt_in = 16'b1_11001_1100000000;

@@ -10,7 +10,7 @@ module instruction_memory(
     initial begin
         //$readmemb("C:/Users/mih024/Desktop/CSE_141L_Project_Files/CSE141L/test2_program1.txt", memory_array); // load instruction memory from file
         //$readmemb("C:/Users/mih024/Desktop/CSE_141L_Project_Files/CSE141L/test2_program2.txt", memory_array);
-        $readmemb("C:/Users/mih024/Desktop/CSE_141L_Project_Files/CSE141L/test4_program3.txt", memory_array);
+        $readmemb("C:/Users/mih024/Desktop/CSE_141L_Project_Files/CSE141L/test5_program3.txt", memory_array);
     end
 
     always_comb begin

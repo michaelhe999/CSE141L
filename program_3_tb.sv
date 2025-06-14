@@ -62,20 +62,20 @@ module program_3_tb();
 	  cycle_ct++;
   end
 
-//   always @(posedge clk) begin
-// 		// Print every instruction :)
-//         if (!t1.ack) begin
-// 		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
-// 				t1.cycle_count, t1.pc.current_pc_out, t1.cd.instruction, t1.cd.done, t1.should_run_processor, t1.ack);
-//         end
-//         // if (f1.pc.current_pc_out%20 == 0) begin
-// 		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
-// 		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
-// 		// end
-// 		// if (cd.instruction == 9'b010000000) begin //done
-// 		// 	$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
-// 		// end
-//   end
+  always @(posedge clk) begin
+		// Print every instruction :)
+        if (!t1.ack) begin
+		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
+				t1.cycle_count, t1.pc.current_pc_out, t1.cd.instruction, t1.cd.done, t1.should_run_processor, t1.ack);
+        end
+        // if (f1.pc.current_pc_out%20 == 0) begin
+		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
+		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
+		// end
+		// if (cd.instruction == 9'b010000000) begin //done
+		// 	$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
+		// end
+  end
 
   initial begin			          // contrived operands
     //#20ns reset = '0;

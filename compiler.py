@@ -112,6 +112,10 @@ def compile_line(line):
         instruction = b_type(imm)
     elif parts[0] == "beq":
         # Sign extend the immediate value
+        try:
+            temp = int(parts[1])
+        except ValueError:
+            raise ValueError(f"Immediate value for beq must be an integer: {parts[1]}")
         sign_extended = parts[1][0] + parts[1]
         imm = twos_complement_to_decimal(sign_extended)
         instruction = b_type(imm)

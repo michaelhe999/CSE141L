@@ -103,9 +103,9 @@ module top_level (
     );
     always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
-            assign ack = 0; // Reset ack to 0
+            ack <= 0; // Reset ack to 0
         end else if ((should_run_processor & done) || overflow) begin
-            assign ack = 1; // Hold ack at 1
+            ack <= 1; // Hold ack at 1
         end
     end
 

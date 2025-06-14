@@ -18,7 +18,7 @@ logic [7:0] test_overflow ; // temporary variable for overflow output
             3'b110: alu_out = (alu_input_a != alu_input_b) ? 8'b00000001 : 8'b0; // compare not equal
             3'b111: begin
                 test_overflow = alu_input_a + alu_input_b; // temporary variable for overflow
-                alu_out = ~(alu_input_a[7] & alu_input_b[7] == test_oveflow[7]);
+                alu_out = ~(alu_input_a[7] & alu_input_b[7] == test_overflow[7]);
             end
 
         endcase

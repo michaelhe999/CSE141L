@@ -1,0 +1,15 @@
+li 0000100 # Load 4 into R1 (address of LSW)
+lw 1 2 # Load mem4 into R2 (LSW)
+li 0000101 # Load 5 into R1 (address of MSW)
+lw 1 3 # Load mem5 into R3 (MSW)
+li 1111111 # Load all 1s into R1
+move 1 0 # Move all 1s to R0
+li 0000001 # Load 1 into R1
+srl 0 1 # R1 is now 01111111
+move 1 0 # Move 01111111 to R0
+li 1111111 # Load all 1s into R1
+xor 0 1 # R1 is now 10000000
+and 2 1 # R1 is sign bit
+move 1 0 # R0 is sign bit
+li 0000111 # Load 7 into R1
+srl 0 1 # Shift sign to LSB

@@ -7,8 +7,10 @@ module alu (
 );
 
 logic [7:0] test_overflow ; // temporary variable for overflow output
+logic overflow; // overflow flag
     always_comb begin
         test_overflow = 8'b0; // initialize test_overflow to zero
+        overflow = 1'b0; // reset overflow flag
         case (alu_opcode)
             3'b000: alu_out = alu_input_a & alu_input_b; // bitwise AND
             3'b001: alu_out = alu_input_a + alu_input_b; // ADD
@@ -19,7 +21,7 @@ logic [7:0] test_overflow ; // temporary variable for overflow output
             3'b110: alu_out = (alu_input_a != alu_input_b) ? 8'b00000001 : 8'b0; // compare not equal
             3'b111: begin
                 test_overflow = alu_input_a + alu_input_b;
-                logic overflow;
+                overflow = 1'b0; // reset overflow flag
                 
                 // Correct overflow detection for signed addition
                 overflow = (alu_input_a[7] == alu_input_b[7]) &&  // Same sign

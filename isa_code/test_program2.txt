@@ -177,8 +177,8 @@ li 0000110 # mem6
 lw 1 2 # mem6 into R2
 xor 0 2 # R1 = flipped R1
 move 1 2 # move flipped into R2
-li 0000001 # Load 0 into R1
-move 1 3 # R3 (carry out) defaults to 1
+li 0000000 # Load 0 into R1
+move 1 3 # R3 (carry out) defaults to 0
 li 0000001 # Load 1 into R1 to add
 add 1 2 # Add 1 to flipped R2
 move 1 0 # sum in R0
@@ -190,8 +190,8 @@ move 1 0 # Move sum into R0
 li 0000111 # Load 7 into R1 for shift
 srl 2 1 Shift R2 right by 7
 neq 0 1 # Check if the sign bit changed
-beq 0000010 # 1; Branch past the carry out change
-li 0000000 # Load 0 into R1
+beq 0000010 # 2; Branch past the carry out change
+li 0000001 # Load 0 into R1
 move 1 3 # R3 (carry out)
 li 1111111 # Mask 
 move 1 0 # Move mask to R0
@@ -199,7 +199,7 @@ li 0000111 # mem7
 lw 1 2 # mem7 into R2
 xor 0 2 # R1 = flipped R1
 move 1 2 # move flipped into R2
-add 1 3 # add possible overflow to flipped
+add 1 3 # add possible carryout to flipped
 move 1 2 # move to R2
 li 0000111 mem7 
 sw 1 2 # Store mem7 

@@ -200,7 +200,7 @@ add 1 3 # R1 = 1 + R2 + R3
 move 1 0 # Move temp Mantissa3[11:8] to R0
 li 0011101 # Load 29 into R1 to write to mem29
 sw 1 0 # Write temp Mantissa3[11:8] to mem29
-li 0000000 # Set R1 to 1 for branching
+li 0000000 # Set R1 to 0 for branching
 beq 0001100 # 12; (Check Mantissa3[11])
 add 2 3 # BRANCH DESTINATION for no overflow; R1 = R2 + R3
 move 1 0 # Move temp Mantissa3[7:0] into R0
@@ -221,9 +221,14 @@ srl 0 1 # R1 = Mantissa3[11]
 beq 0011101 # 29; If R1 == 0, then we don't need to handle edge case
 li 0100000 # This means we do need to handle edge case; get Exp3 (mem32)
 lw 1 0 # We don't handle the edge case where Exp3 is 11111 and 1 is added; Load Exp3 to R0
+li 0000010 # Load 2 to R1 to shift Exp3
+srl 0 1 # Exp3 >> 2
+move 1 0 # Move Exp3 >> 2 into R0
 li 0000001 # Load 1 to R1 to increment Exp3
 add 0 1 # R1 = Exp3+1
 move 1 0 # R0 = Exp3+1
+li 0000010 # Load 2 to R1 to shift Exp3
+sll 0 1 # Exp3 << 2
 li 0100000 # Put Exp3 back into mem32
 sw 1 0 # Put Exp3 back into mem32
 li 0011100 # Get temp Mantissa3[7:0]

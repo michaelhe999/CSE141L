@@ -191,7 +191,7 @@ li 0000111 # Load 7 into R1 for shift
 srl 2 1 Shift R2 right by 7
 neq 0 1 # Check if the sign bit changed
 beq 0000010 # 2; Branch past the carry out change
-li 0000001 # Load 0 into R1
+li 0000000 # Load 0 into R1
 move 1 3 # R3 (carry out)
 li 1111111 # Mask 
 move 1 0 # Move mask to R0

@@ -22,16 +22,16 @@ module register_file (
             registers <= '{default: 8'b0};  // SystemVerilog array init
         end else if (write_en) begin
             registers[write_reg] <= write_value;
-            //$display("WRITE: registers[%0d] <= %h at time %t", write_reg, write_value, $time);
+            $display("WRITE: registers[%0d] <= %h at time %t", write_reg, write_value, $time);
         end
     end
 
     // Debug outside always_ff
-    // always_comb begin
-    //     $display("Register Reads: r_a=%d (0x%h) r_b=%d (0x%h) @ %t", 
-    //             r_a, data_a, r_b, data_b, $time);
-    //     $display("Register Writes: write_reg=%d (0x%h) @ %t", 
-    //             write_reg, write_value, $time);
-    // end
+    always_comb begin
+        $display("Register Reads: r_a=%d (0x%h) r_b=%d (0x%h) @ %t", 
+                r_a, data_a, r_b, data_b, $time);
+        $display("Register Writes: write_reg=%d (0x%h) @ %t", 
+                write_reg, write_value, $time);
+    end
 
 endmodule

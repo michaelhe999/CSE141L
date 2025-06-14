@@ -102,7 +102,7 @@ def compile_line(line):
         else:
             raise ValueError(f"Invalid move instruction: {line}")
         
-    elif parts[0] in ["and", "add", "xor", "slt", "sll", "srl", "neq"]:
+    elif parts[0] in ["and", "add", "xor", "slt", "sll", "srl", "neq", 'over']:
         opcode = parts[0]
         ra = int(parts[1])
         rb = int(parts[2])

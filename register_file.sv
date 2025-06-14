@@ -26,7 +26,7 @@ module register_file (
         end
     end
 
-    Debug outside always_ff
+    // Debug outside always_ff
     always_comb begin
         $display("Register Reads: r_a=%d (0x%h) r_b=%d (0x%h) @ %t", 
                 r_a, data_a, r_b, data_b, $time);

@@ -105,7 +105,7 @@ move 1 2 # R2 is the counter
     li 0000001 # Load 1 into R1 for shifting
     srl 3 1 # Shift Mantissa2[7:0] right 1
     move 1 3 # Shifted Mantissa2[7:0] in R3
-    i 0011010 # Get Mantissa2[10:8]; mem26
+    li 0011010 # Get Mantissa2[10:8]; mem26
     lw 1 0 # Load Mantissa2[10:8] into R0
     li 0000111 # Load 7 into R1 for shifting
     sll 0 1 # Get the LSB of Mantissa2[10:8]
@@ -160,7 +160,7 @@ move 1 2 # R2 is the counter
     li 0000001 # Load 1 into R1 for shifting
     srl 3 1 # Shift Mantissa1[7:0] right 1
     move 1 3 # Shifted Mantissa1[7:0] in R3
-    i 0011000 # Get Mantissa1[10:8]; mem24
+    li 0011000 # Get Mantissa1[10:8]; mem24
     lw 1 0 # Load Mantissa1[10:8] into R0
     li 0000111 # Load 7 into R1 for shifting
     sll 0 1 # Get the LSB of Mantissa1[10:8]

@@ -84,8 +84,14 @@ li 0000000 # NOP
 done
 li 0000101 # BRANCH DESTINATION FOR HARD CASES; Load 5 into R1
 lw 1 0 # Load mem5 into R0
+li 0000011 # Load mask into R1
+and 0 1 # Mask mantissa bits 
+move 1 0 # Move into R0
+li 0000100 # Add implicit 1
+xor 0 1 # Add implicit 1 
+move 1 0 # Move into R0
 li 0000111 # Load 7 into R1
-sw 1 0 # Store mem5 into mem7
+sw 1 0 # Store mantissa + implicit 1 into mem7
 li 0000100 # Load 4 into R1
 lw 1 0 # Load mem4 into R0
 li 0000110 # Load 6 into R1

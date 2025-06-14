@@ -12,6 +12,8 @@ li 0000000 # Load 0 into R1
 lw 1 0 # Load data at address 0 into R0 (mem0)
 li 0001111 # Load 15 into R1
 sw 1 0 # Store data in R0 (mem0) into address 15
+li 0010001 # Load 17 into R1
+sw 1 0 # Store data in R0 (mem0) into address 17
 move 3 1 # Move the sign bit back to R1
 beq 0100011 # 35; (pos); Skip past the negative part if sign bit is 0: Handle negative case on next line
 {

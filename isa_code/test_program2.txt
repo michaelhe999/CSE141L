@@ -96,7 +96,7 @@ li 0000100 # Load 4 into R1
 lw 1 0 # Load mem4 into R0
 li 0000110 # Load 6 into R1
 sw 1 0 # Store mem4 into mem6
-li 0010001 # EXP IS BETWEEN 22 AND 7 (INCLUSIVE); Load 17 into R1
+li 0010001 # EXP IS BETWEEN 22 AND 7 (INCLUSIVE); Load 17 into R1 ISSUE BETWEEN HERE AND LINE 141
 slt 3 1 # If exp < 17, R1 = 1. If exp >= 17, R1 = 0; branch
 beq 0101000 # 40; handle exp == 18
 li 1111111 # Mask into R1
@@ -104,13 +104,13 @@ xor 1 3 # Flip the bits of exp
 move 1 2 # Move this into R2
 li 0000001 # 1 into R1 for adding
 add 1 2 # R1 = -exp
-move 1 2 # R2 = -exp
+move 1 2 # R2 = -exp %%%
 li 0010001 # Load 17 into R1
 add 1 2 # This is the right shift amount
 move 1 2 # Right shift amount in R2
-li 0000111 # Load 7 into R1
+li 0000111 # Load 7 into R1 %%%
 lw 1 0 # Load mem7 into R0
-srl 0 1 # Shift mem7 right by shift amount 
+srl 0 2 # Shift mem7 right by shift amount 
 move 1 0 # Shifted mem7 in R0
 li 0100010 # Store temp shifted mem7 in mem34
 sw 1 0 # temp shifted mem7 in mem34
@@ -177,7 +177,7 @@ li 0000110 # mem6
 lw 1 2 # mem6 into R2
 xor 0 2 # R1 = flipped R1
 move 1 2 # move flipped into R2
-li 0000001 # Load 0 into R1
+li 0000000 # Load 0 into R1
 move 1 3 # R3 (carry out) defaults to 1
 li 0000001 # Load 1 into R1 to add
 add 1 2 # Add 1 to flipped R2

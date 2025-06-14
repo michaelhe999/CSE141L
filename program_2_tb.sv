@@ -31,20 +31,20 @@ module program_2_tb();
 	#5ns clk = 0;
   end
 
-//   always @(posedge clk) begin
-// 		// Print every instruction :)
-//         if (!f3.ack) begin
-// 		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
-// 				f3.cycle_count, f3.pc.current_pc_out, f3.cd.instruction, f3.cd.done, f3.should_run_processor, f3.ack);
-//         end
-//         // if (f1.pc.current_pc_out%20 == 0) begin
-// 		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
-// 		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
-// 		// end
-// 		// if (cd.instruction == 9'b010000000) begin //done
-// 		// 	$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
-// 		// end
-//   end
+//    always @(posedge clk) begin
+//  		// Print every instruction :)
+//          if (!f3.ack) begin
+//  		$display("[Cycle %0d] PC=%0d, inst=%b, done=%b, processor_running?=%b, ack=%b", 
+//  				f3.cycle_count, f3.pc.current_pc_out, f3.cd.instruction, f3.cd.done, f3.should_run_processor, f3.ack);
+//          end
+//          // if (f1.pc.current_pc_out%20 == 0) begin
+//  		// 	$display("[Cycle %0t] PC=%0d, inst=%b, done=%b", 
+//  		// 		$time, f1.pc.current_pc_out, f1.im.instruction, f1.cd.done);
+//  		// end
+//  		// if (cd.instruction == 9'b010000000) begin //done
+//  		// 	$display("[Cycle %0t] Done instruction PC=%0d, done=%b", $time, f1.pc.current_pc_out, f1.cd.done);
+//  		// end
+//    end
 
   initial begin
 //    $monitor(flt_in,,,int_out);
@@ -111,7 +111,7 @@ module program_2_tb();
 //    disp;
 //    flt_in = 16'b1_10000_0111000000;
 //    disp;
-    
+    // Uncomment these 6 when actually running
 	flt_in = 16'b1_10010_1100000000;
 	disp;
 	flt_in = 16'b1_10010_1110000000;

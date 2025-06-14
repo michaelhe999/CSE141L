@@ -12,7 +12,7 @@ module data_memory(
 
     always_ff @(posedge clk)
         if(mem_write) begin
-            $display("WRITE: mem[%0d] <= %h at time %t", data_a, data_b, $time);
+            // $display("WRITE: mem[%0d] <= %h at time %t", data_a, data_b, $time);
             mem_core[data_a] <= data_b;
         end
 

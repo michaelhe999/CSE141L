@@ -65,7 +65,7 @@ li 0000000 # NOP
 li 0000000 # NOP
 done
 li 0000110 # max case is handled, now handle min cases; Load 7 into R1
-slt 1 3 # if exp >= 7, branch (R1 = 0) -> R1 = 7 < exp 
+slt 3 1 # if exp >= 7, branch (R1 = 0) -> R1 = 6 < exp; if 6 < exp, R1 = 1; R1 = 0 if 6 >= exp
 beq 0001111 # 15; (exp >= 7)
 li 0000000 # Handle 0s cases; Load 0 into R1
 move 1 0 # R0 is 0

@@ -8,9 +8,9 @@ module instruction_memory(
     logic [8:0] memory_array [4096]; // up to 4096 instructions (can change), 9-bit each
 
     initial begin
-        //$readmemb("C:/Users/liuhe/OneDrive/Desktop/CSE_141L_Project_Files/CSE141L/test2_program1.txt", memory_array); // load instruction memory from file
-        $readmemb("C:/Users/liuhe/OneDrive/Desktop/CSE_141L_Project_Files/CSE141L/test12_program2.txt", memory_array);
-        //$readmemb("C:/Users/liuhe/OneDrive/Desktop/CSE_141L_Project_Files/CSE141L/test9_program3.txt", memory_array);
+        $readmemb("C:/Users/liuhe/OneDrive/Desktop/CSE_141L_Project_Files/CSE141L/test10_program1.txt", memory_array); // load instruction memory from file
+        // $readmemb("C:/Users/liuhe/OneDrive/Desktop/CSE_141L_Project_Files/CSE141L/test12_program2.txt", memory_array);
+        // $readmemb("C:/Users/liuhe/OneDrive/Desktop/CSE_141L_Project_Files/CSE141L/test9_program3.txt", memory_array);
 
         //$readmemb("C:/Users/sarah/College/CSE 141L/CSE141L/test9_program3.txt", memory_array);
     end

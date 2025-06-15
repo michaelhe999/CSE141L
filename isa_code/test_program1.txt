@@ -1,0 +1,233 @@
+li 0000001 # MSW from memory
+lw 1 3 # Load MSW into R3
+li 0000111 # Load 7 for shifting
+srl 3 1 # R1 is the sign bit
+move 1 2 # Save the sign bit to R2
+li 0001010 # Load 10 into R1
+sw 1 2 # Store sign bit into mem10
+li 1111111 # Load mask into R1
+move 1 0 # Move mask into R0
+li 0000001 # Load 1 for shifting
+srl 0 1 # R0 is now 01111111 
+and 0 3 # R1 is the non-sign bits
+beq 0000100 # 4; (handle the case where MSW[6:0] is all 0s)
+li 0010110 # DESTINATION NON-TRAP; this is the intial biased exponent
+move 1 3 # R3 is the initial biased exponent
+li 0000000 # Load 0 into R1 for branching
+beq 0110001 # 49; (Jump past trap cases) 
+li 0000000 # LSW from memory; DEST FOR MSW[6:0] ALL 0s
+lw 1 1 # Load LSW into R1
+beq 0000010 # 2 (trap case, aka all the bits except for maybe sign are 0)
+li 0000000 # If we get here, that means MSW[6:0] is all 0s, but LSW is not; just go back to NON-TRAP
+beq 1110111 # -9 (upwards to NON-TRAP)
+li 0001010 # Load 10 into R1; DEST FOR TRAP CASE HANDLING
+lw 1 1 # Load sign bit into R1
+beq 0011010 # 26; (sign bit is 0)
+li 0010110 # Sign bit is 1; this will be exp (22) 
+move 1 0 # Move exp to R0
+li 0000010 # Load 2 into R1 for shift
+sll 0 1 # Shift Exp to correct place
+move 1 0 # Move Exp to R0
+li 0000001 # Load 1 into R1
+move 1 3 # Move 1 into R3
+li 0000111 # Load 7 into R1 for shift
+sll 3 1 # R1 = 10000000; sign bit
+xor 0 1 # MSW output
+move 1 0 # move to R0
+li 0000011 # mem3
+sw 1 0 # Store MSW into mem3
+li 0000000 # Load 0 into R1
+move 1 0 # R0 = 0
+li 0000010 # mem2
+sw 1 0 # Store 0 into mem2
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+done # Finished handling the case where trap is 1 and sign is 1
+li 0000000 # Case where trap is 1 and sign is 0; Load 0 into R1
+move 1 0 # move 0 to R0
+li 0000011 # mem3
+sw 1 0 # Store 0 into mem3
+li 0000010 # mem2
+sw 1 0 # Store 0 into mem2
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+done # Finished handling the case where trap is 1 and sign is 0
+li 0001010 # Start of non-trap cases; Load 10 into R1
+lw 1 1 # Move sign bit into R1
+beq 0100110 # 38; (sign bit is 0, no need to take twos complement; BRANCH POS CASE)
+li 0000000 # Two's complement of int; start with LSW
+lw 1 2 # Load LSW into R2
+li 1111111 # XOR mask
+xor 1 2 # Flip LSW 
+move 1 2 # Flipped LSW in R2
+li 0000001 # Load 1 into R0 for adding
+add 1 2 # Add 1 to Flipped LSW
+move 1 0 # Move result into R0
+li 0001011 # Load 11 into R1
+sw 1 0 # Store 2's complemented LSW into mem11
+li 0000111 # Load 7 for shifting
+srl 2 1 # Get the sign bit of flipped LSW
+move 1 2 # sign bit of flipped LSW in R2
+li 0000111 # Load 7 for shifting
+srl 0 1 # Get the sign bit of - LSW
+neq 1 2 # Compare if sign bits are the same. If they are, R1 will be 0. If not, R1 will be 1
+beq 0001100 # 12 (sign bits were the same, branch past adding 1 to MSW)
+li 0000001 # Sign bit were different means we add 1 to the MSW; mem1 access
+lw 1 2 # Load MSW into R2
+li 1111111 # XOR mask
+xor 1 2 # Flip MSW 
+move 1 2 # Flipped MSW in R2
+li 0000001 # Load 1 into R0 for adding
+add 1 2 # Add 1 to Flipped MSW
+move 1 0 # Move result into R0
+li 0001100 # Load 12 into R1
+sw 1 0 # Store 2's complemented MSW into Mem12
+li 0000000 # R1 = 0 for branching
+beq 0010001 # 17 (skip the flipping of MSW again)
+li 0000001 # BRANCH DESTINATION FOR SIGN BITS SAME; mem1 access
+lw 1 2 # Load MSW into R2
+li 1111111 # XOR mask
+xor 1 2 # Flip MSW 
+move 1 2 # Flipped MSW in R2
+li 0001100 # Load 12 into R1
+sw 1 0 # Store 2's complemented MSW into Mem12
+li 0000000 # Load 0 to R1 for branching
+beq 0001000 # 8 (avoid overwriting mem11 and mem12)
+li 0000000 # We need to write to MEM11 and MEM12 for the positive case too; BRANCH POS CASE; mem0
+lw 1 0 # mem0 in R0
+li 0001011 # mem11
+sw 1 0 # mem0 in mem11
+li 0000001 # mem1
+lw 1 0 # mem1 in R0
+li 0001100 # mem12
+sw 1 0 # mem1 in mem12
+li 0010111 # MEM11 and MEM12 hold MEM0 and MEM1 adjusted as needed; branch avoid overwriting mem11 and mem12; going into normalization loop
+move 0 1 # R3 is the initial biased exponent; R0 is the counter (starts at 23)
+li 0010110 # refresh R3 just in case
+move 1 3 # reset exp to be 22 at the start
+li 0000110 # Load 6 into R1
+move 1 2 # Load 6 into R2 (5 is the lower bound, we adjust to 6 to work with our slt code)
+{
+slt 2 0 # If counter is less than the lower bound, R1 = 1, if counter >= lower bound, R1 = 0
+move 1 2 # if R1 is 1, we branch out of the loop; so we invert R1 (WE OVERWRITE R2, SO REWRITE IT BEFORE THE END OF THE LOOP)
+li 1111111 # XOR mask
+xor 1 2 # Flip the previous R1 value
+beq 0101101 # 45 (EXIT THE LOOP)
+li 0001100 # mem12
+lw 1 2 # Load mem12 to R2
+li 0000111 # Load 7 for shifting
+srl 2 1 # Get MSB of mem12
+beq 0000010 # 2 (Shift and decrement exp, no 1 found yet)
+li 0000000 # Load 0 for branching
+beq 0100110 # 38; FOUND LEADING 1; EXIT THE LOOP
+li 1111111 # BRANCH DEST TO SHIFT AND DECREMENT EXP; load -1 to R1 to decrement exp
+add 1 3 # Decrement exp
+move 1 3 # Set exp to be decremented exp
+li 0001011 # mem11
+lw 1 2 # Load mem11 to R2
+li 0000001 # Load 1 to R1 for shifting
+sll 2 1 # Shift mem11 left 1
+move 1 2 # move into R2
+li 0001101 # mem13
+sw 1 2 # Temporarily load mem11 << 1 to mem13
+li 0001110 # mem14
+sw 1 3 # Temporarily load current exp to mem14
+li 0001100 # mem12
+lw 1 2 # Load mem12 into R2
+li 0000001 # Load 1 for shifting
+sll 2 1 # mem12 << 1
+move 1 2 # R2 = mem12 << 1
+li 0001011 # mem11
+lw 1 3 # Load mem11 into R3
+li 0000111 # Load 7 for shifting
+srl 3 1 # Get MSB of mem11 
+xor 1 2 # mem12 << 1 || MSB of mem11
+move 1 2 # Move into R2
+li 0001100 # mem12
+sw 1 2 # Store mem12 << 1 || MSB of mem11 to mem12
+li 0001101 # mem13
+lw 1 2 # Load mem11 << 1 to R2
+li 0001011 # mem11
+sw 1 2 # Store mem11 << 1 to mem11
+li 0001110 # mem14
+lw 1 3 # Put exp back into R3
+li 1111111 # Load -1 into R1 for decrementing
+add 0 1 # Counter --
+move 1 0 # Decrement the counter
+li 0000110 # Load 6 into R1
+move 1 2 # Reload 6 into R2
+li 0000000 # Load 0 to branch to top of loop
+beq 1001111 #-50; (slt at the top of the loop) 
+}
+li 0001011 # mem11
+lw 1 2 # Load mem11 into R2
+li 0000001 # Load 1 for shifting
+sll 2 1 # mem11 << 1
+move 1 2 # Move mem11 << 1 to R2
+li 0001101 # mem13
+sw 2 1 # Temporarily store mem11 << 1 in mem13
+li 0001100 # mem12
+lw 1 2 # Load mem12 into R2
+li 0000001 # Load 1 into R1 for shifting
+sll 2 1 # Shift mem12 << 1
+move 1 2 # R2 = mem12 << 1
+li 0001011 # mem11
+lw 1 0 # Load mem11 into R0
+li 0000111 # Load 7 for shifting
+srl 0 1 # Get MSB of mem11 
+xor 1 2 # mem12 << 1 || MSB of mem11
+move 1 2 # Move into R2
+li 0001100 # mem12
+sw 1 2 # Store mem12 << 1 || MSB of mem11 to mem12
+li 0001101 # mem13
+lw 1 2 # Load mem11 << 1 to R2
+li 0001011 # mem11
+sw 1 2 # Store mem11 << 1 to mem11
+li 0001010 # mem10 
+lw 1 0 # Put sign bit into R0
+li 0000111 # Load 7 for shifting
+sll 0 1 # Shift sign bit to right place
+li 0000010 # Load 2 for shifting
+sll 3 1 # Shift exp to right place
+xor 0 1 # Sign || Exp 
+move 1 0 # Move Sign || Exp to R0
+li 0001100 # mem12
+lw 1 2 # Load mem12 into R2
+li 0000110 # Load 6 into R1 for shifting
+srl 2 1 # Get 2 MSBs from mem12
+xor 0 1 # Sign || Exp || mem12[7:6]
+move 1 0 # R0 = Sign || Exp || mem12[7:6]
+li 0000011 # mem3
+sw 1 0 # MSW stored!
+li 0000010 # Load 2 into R1 for shifting
+sll 2 1 # Shift mem12 << 2 
+move 1 2 # 2 stores mem12[5:0]
+li 0001011 # mem11
+lw 1 3 # R3 holds mem11
+li 0000110 # Load 6 into R1 for shifting
+srl 3 1 # get mem11[7:6]
+xor 1 2 # mem12[5:0] || mem11[7:6]
+move 1 0 # R0 = mem12[5:0] || mem11[7:6]
+li 0000010 # mem2
+sw 1 0 # LSW stored!!!
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+li 0000000 # NOP
+done # 
